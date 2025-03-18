@@ -18,6 +18,9 @@ import Amenities from "./Amenities"
 import ReservationPolicy from "./ReservationPolicy"
 import BusImages from "./BusImages"
 import PassengerData from "./PassengerData"
+import PaymentMethod from "./PaymentMethod"
+import PaymentCard from "./PaymentCard"
+import BookingStatus from "./BookingStatus"
 
 export {
   Header,
@@ -40,4 +43,7 @@ export {
   ReservationPolicy,
   BusImages,
   PassengerData,
+  PaymentMethod,
+  PaymentCard,
+  BookingStatus,
 }

@@ -2,7 +2,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import App from "./App.jsx"
-import { Home, About, Ticket, Detail, Checkout } from "./pages"
+import { Home, About, Ticket, Detail, Checkout, Invoice } from "./pages"
 import "./index.css"
 
 const router = createBrowserRouter([
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/tickets/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/tickets/payment",
+        element: <Invoice />,
       },
     ],
   },
