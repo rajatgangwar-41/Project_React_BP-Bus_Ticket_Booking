@@ -1,7 +1,14 @@
 import { AppLayout, TopLayout } from "../layout"
 import { busInside } from "../assets"
 import { Link } from "react-router-dom"
-import { BusSeat, Warning } from "../components"
+import {
+  Amenities,
+  BusImages,
+  BusSeat,
+  ReservationPolicy,
+  ToggleButton,
+  Warning,
+} from "../components"
 
 const Detail = () => {
   const message = (
@@ -38,7 +45,24 @@ const Detail = () => {
             </span>
           </p>
           {/* Button */}
-          <div className="w-full flex items-center justify-center gap-6 flex-col"></div>
+          <div className="w-full flex items-center justify-center gap-6 flex-col">
+            <ToggleButton
+              buttonText={"See Bus Details"}
+              buttonTextHidden={"Hide Bus Details"}
+            >
+              <div className="w-full space-y-10">
+                {/* Reservation Policy And Amenities */}
+                <div className="w-full grid grid-cols-7 gap-20">
+                  {/* Amenities */}
+                  <Amenities />
+                  {/* Reservation Policy */}
+                  <ReservationPolicy />
+                </div>
+                {/* Bus Images */}
+                <BusImages />
+              </div>
+            </ToggleButton>
+          </div>
         </div>
       </AppLayout>
     </div>

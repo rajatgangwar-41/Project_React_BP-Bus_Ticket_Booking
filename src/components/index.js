@@ -14,6 +14,10 @@ import Warning from "./Warning"
 import BusSeat from "./BusSeat"
 import ErrorMessage from "./ErrorMessage"
 import ToggleButton from "./ToggleButton"
+import Amenities from "./Amenities"
+import ReservationPolicy from "./ReservationPolicy"
+import BusImages from "./BusImages"
+import PassengerData from "./PassengerData"
 
 export {
   Header,
@@ -32,4 +36,8 @@ export {
   BusSeat,
   ErrorMessage,
   ToggleButton,
+  Amenities,
+  ReservationPolicy,
+  BusImages,
+  PassengerData,
 }
