@@ -21,6 +21,8 @@ import PassengerData from "./PassengerData"
 import PaymentMethod from "./PaymentMethod"
 import PaymentCard from "./PaymentCard"
 import BookingStatus from "./BookingStatus"
+import PassengerInvoice from "./PassengerInvoice"
+import CompanyInvoice from "./CompanyInvoice"
 
 export {
   Header,
@@ -46,4 +48,6 @@ export {
   PaymentMethod,
   PaymentCard,
   BookingStatus,
+  PassengerInvoice,
+  CompanyInvoice,
 }
