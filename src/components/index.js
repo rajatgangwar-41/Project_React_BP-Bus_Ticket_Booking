@@ -23,6 +23,8 @@ import PaymentCard from "./PaymentCard"
 import BookingStatus from "./BookingStatus"
 import PassengerInvoice from "./PassengerInvoice"
 import CompanyInvoice from "./CompanyInvoice"
+import Discount from "./Discount"
+import DiscountCard from "./DiscountCard"
 
 export {
   Header,
@@ -50,4 +52,6 @@ export {
   BookingStatus,
   PassengerInvoice,
   CompanyInvoice,
+  Discount,
+  DiscountCard,
 }

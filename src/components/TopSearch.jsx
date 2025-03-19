@@ -1,5 +1,6 @@
-import AppLayout from "../layout/AppLayout"
+import { AppLayout } from "../layout"
 import { TopSearchCard } from "../components"
+import { busData } from "../constants"
 
 const TopSearch = () => {
   return (
@@ -11,44 +12,20 @@ const TopSearch = () => {
         </h1>
       </div>
       {/* Top Search Ticket Routes Card */}
-      <div className="w-full grid grid-cols-3 gap-5">
-        <TopSearchCard
-          routeFrom="Delhi"
-          routeTo="Mumbai"
-          timeDuration="12h 30m"
-          price="1600"
-        />
-        <TopSearchCard
-          routeFrom="Dhaka"
-          routeTo="Chittagong"
-          timeDuration="6h 30m"
-          price="800"
-        />
-        <TopSearchCard
-          routeFrom="Dhaka"
-          routeTo="Chittagong"
-          timeDuration="6h 30m"
-          price="800"
-        />
-        <TopSearchCard
-          routeFrom="Delhi"
-          routeTo="Mumbai"
-          timeDuration="12h 30m"
-          price="1600"
-        />
-        <TopSearchCard
-          routeFrom="Dhaka"
-          routeTo="Chittagong"
-          timeDuration="6h 30m"
-          price="800"
-        />
-        <TopSearchCard
-          routeFrom="Dhaka"
-          routeTo="Chittagong"
-          timeDuration="6h 30m"
-          price="800"
-        />
-      </div>
+      <ul className="w-full grid grid-cols-3 gap-5">
+        {busData.slice(0, 6).map((bus, index) => {
+          return (
+            <li key={index}>
+              <TopSearchCard
+                routeFrom={bus.routeFrom}
+                routeTo={bus.routeTo}
+                timeDuration={bus.duration}
+                price={bus.price}
+              />
+            </li>
+          )
+        })}
+      </ul>
     </AppLayout>
   )
 }

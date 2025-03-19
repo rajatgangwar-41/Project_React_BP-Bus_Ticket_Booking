@@ -32,7 +32,7 @@ const TopSearchCard = ({ routeFrom, routeTo, timeDuration, price }) => {
           {/* First-one */}
           <div className="flex items-center gap-x-1">
             <FaWifi className="w-3 h-3 text-neutral-500 " />
-            <p className="text-xs text-neutral-600 font-normal">internet</p>
+            <p className="text-xs text-neutral-600 font-normal">Wifi</p>
           </div>
           {/* Second-one */}
           <div className="flex items-center gap-x-1">
@@ -57,7 +57,7 @@ const TopSearchCard = ({ routeFrom, routeTo, timeDuration, price }) => {
         {/* Price */}
         <h1 className="text-xl text-neutral-700 font-semibold">Rs. {price}</h1>
         <button className="w-fit px-5 py-1.5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-sm font-normal text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer">
-          Reserve Seat
+          Book Seat
         </button>
       </div>
     </div>

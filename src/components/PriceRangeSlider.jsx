@@ -18,7 +18,7 @@ const PriceRangeSlider = ({
   rangeColor = "#ff0303",
   valueStyle = valueCSS,
   width = "250px",
-  currencyText = "$",
+  currencyText = "\u20B9",
 }) => {
   const [minVal, setMinVal] = useState(min)
   const [maxVal, setMaxVal] = useState(max)
@@ -63,7 +63,7 @@ const PriceRangeSlider = ({
   }, [minVal, maxVal, onChange])
 
   return (
-    <div className="w-full flex items-center justify-center flex-col space-y-14">
+    <div className="w-full flex items-center justify-center flex-col mt-3 space-y-8">
       {/* Display Price Value */}
       <div className="w-[250px] px-4 flex items-center justify-between gap-x-5">
         <p className="text-xl text-neutral-600 font-semibold">

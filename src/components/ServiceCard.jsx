@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react"
 
 const ServiceCard = ({ icon: Icon, title, description }) => {

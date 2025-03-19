@@ -1,4 +1,4 @@
-import { FaBus, FaStar } from "react-icons/fa6"
+import { FaBus, FaCalendarWeek, FaStar, FaWifi } from "react-icons/fa6"
 import { MdOutlineChair } from "react-icons/md"
 import { RiVipFill } from "react-icons/ri"
 import { TbAirConditioning } from "react-icons/tb"
@@ -6,13 +6,17 @@ import { Link } from "react-router-dom"
 
 const TicketCard = ({
   icon: Icon,
-  busName,
+  transportName,
   routeFrom,
   routeTo,
   arrivalTime,
   departureTime,
   price,
   availableSeats,
+  weekDay,
+  rating,
+  totalSeats,
+  amenities,
 }) => {
   return (
     <div className="w-full rounded-xl p-5 border-2 border-neutral-300 space-y-4">
@@ -20,22 +24,44 @@ const TicketCard = ({
         {/* Routes */}
         <div className="space-y-5">
           {/* Bus Info  */}
-          <div className="w-full flex items-center justify-between">
-            <div className="flex items-center gap-x-2">
+          <div className="w-full  flex items-center justify-between">
+            <div className="min-w-65 flex items-center gap-x-2">
               <FaBus className="h-5 w-5 text-primary" />
               <p className="text-lg text-neutral-700 font-semibold">
-                {busName}
+                {transportName}
               </p>
             </div>
+            <div className="flex items-center gap-x-3 w-fit rounded-full px-1.5 py-0.5">
+              <FaCalendarWeek className="w-4 h-4 text-primary bg-neutral-200/65" />
+              <ul className="flex gap-2">
+                {weekDay.map((day) => {
+                  return (
+                    <p className="text-sm bg-neutral-200/65 text-neutral-600 font-normal px-2 py-0.5 rounded-full">
+                      {day}
+                    </p>
+                  )
+                })}
+              </ul>
+            </div>
             <div className="flex items-center gap-x-4">
-              <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
-                <TbAirConditioning className="w-4 h-4 text-primary" />
-                <p className="text-xs text-neutral-600 font-normal">AC</p>
-              </div>
-              <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
+              {amenities.some((a) =>
+                a.toLowerCase().includes("air conditioning")
+              ) && (
+                <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
+                  <TbAirConditioning className="w-4 h-4 text-primary" />
+                  <p className="text-xs text-neutral-600 font-normal">AC</p>
+                </div>
+              )}
+              {amenities.some((a) => a.toLowerCase().includes("wifi")) && (
+                <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
+                  <FaWifi className="w-4 h-4 text-primary" />
+                  <p className="text-xs text-neutral-600 font-normal">Wifi</p>
+                </div>
+              )}
+              <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rousnded-full px-1.5 py-0.5">
                 <FaStar className="w-4 h-4 text-yellow-600" />
                 <p className="text-xs text-yellow-600 font-normal pt-0.5">
-                  4.5
+                  {rating}
                 </p>
               </div>
               <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
@@ -44,7 +70,9 @@ const TicketCard = ({
               </div>
               <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
                 <MdOutlineChair className="w-4 h-4 text-primary -rotate-90" />
-                <p className="text-xs text-neutral-600 font-normal">35 Seats</p>
+                <p className="text-xs text-neutral-600 font-normal">
+                  {totalSeats} Seats
+                </p>
               </div>
             </div>
           </div>
@@ -78,7 +106,7 @@ const TicketCard = ({
       <div className="w-full flex items-center justify-between">
         {/* Price */}
         <h1 className="text-xl text-neutral-700 font-semibold">
-          Rs. {price}{" "}
+          Rs. {price}
           <span className="text-sm text-neutral-500 font-normal">
             /per seat
           </span>
@@ -87,7 +115,7 @@ const TicketCard = ({
         <h1 className="text-sm text-neutral-600 font-normal flex items-center justify-center gap-x-1.5">
           <span className="text-lg text-green-700 font-bold pt-0">
             {availableSeats}
-          </span>{" "}
+          </span>
           Seats Available
         </h1>
 
@@ -95,7 +123,7 @@ const TicketCard = ({
           to="/tickets/detail"
           className="w-fit px-5 py-1.5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-sm font-normal text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer"
         >
-          Reserve Seat
+          Book Seat
         </Link>
       </div>
     </div>
