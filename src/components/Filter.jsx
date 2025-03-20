@@ -23,7 +23,7 @@ const Filter = ({ className }) => {
         <ul className="space-y-2.5">
           {Object.entries(
             busData.reduce((acc, bus) => {
-              acc[bus.bus_type] = (acc[bus.bus_type] || 0) + 1
+              acc[bus.busType] = (acc[bus.busType] || 0) + 1
               return acc
             }, {})
           )
@@ -56,7 +56,7 @@ const Filter = ({ className }) => {
         <ul className="space-y-2.5">
           {Object.entries(
             busData.reduce((acc, bus) => {
-              acc[bus.transport_name] = (acc[bus.transport_name] || 0) + 1
+              acc[bus.transportName] = (acc[bus.transportName] || 0) + 1
               return acc
             }, {})
           )

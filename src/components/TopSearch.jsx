@@ -16,12 +16,7 @@ const TopSearch = () => {
         {busData.slice(0, 6).map((bus, index) => {
           return (
             <li key={index}>
-              <TopSearchCard
-                routeFrom={bus.routeFrom}
-                routeTo={bus.routeTo}
-                timeDuration={bus.duration}
-                price={bus.price}
-              />
+              <TopSearchCard bus={bus} />
             </li>
           )
         })}

@@ -7,7 +7,7 @@ import { masterCard, creditCard, paypal } from "../assets"
 
 const Footer = () => {
   return (
-    <div className="w-full h-auto bg-neutral-950 py-12">
+    <div className="w-full h-auto bg-neutral-950 py-10">
       <AppLayout className="space-y-10">
         {/* Footer Other Content */}
         <div className="w-full grid grid-cols-5 gap-8">
@@ -18,15 +18,13 @@ const Footer = () => {
                 Bus
               </Link>
               {/* Some Description */}
-              <p className="text-sm text-neutral-500 font-normal  ">
-                Bus is all about booking bus tickets online. We provide a
-                platform for users to book tickets for their desired destination
-                with ease. We offer a wide range of services to make the booking
-                process seamless and secure. Our platform is designed to provide
-                a hassle-free experience for users to book tickets online. We
-                aim to make bus travel more convenient and accessible for
-                everyone. Book your tickets with Bus today and enjoy a
-                comfortable journey to your destination.
+              <p className="w-8/10 pt-3 text-base text-neutral-500 font-normal text-justify">
+                Our online bus ticket booking website makes travel easy and
+                hassle-free. Search for routes, compare fares, and book tickets
+                instantly. Enjoy a seamless experience with secure payments,
+                real-time seat selection, and instant confirmations. Travel
+                smarter with our user-friendly platform, offering convenience,
+                affordability, and reliable customer support.
               </p>
             </div>
             {/* Social Links */}
@@ -48,7 +46,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1 space-y-5">
+          <div className="col-span-1 space-y-5 mt-10">
             <h1 className="text-lg text-neutral-100 font-semibold ">
               Quick Links
             </h1>
@@ -79,7 +77,7 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="col-span-1 space-y-5">
+          <div className="col-span-1 space-y-5 mt-10">
             <h1 className="text-lg text-neutral-100 font-semibold ">
               Top Reserved Routes
             </h1>
@@ -110,7 +108,7 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="col-span-1 space-y-5">
+          <div className="col-span-1 space-y-5 mt-10">
             <h1 className="text-lg text-neutral-100 font-semibold ">
               Support Links
             </h1>

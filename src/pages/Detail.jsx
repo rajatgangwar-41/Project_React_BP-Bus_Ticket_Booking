@@ -1,8 +1,9 @@
 import { AppLayout, TopLayout } from "../layout"
 import { busInside } from "../assets"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import {
   Amenities,
+  BusDetails,
   BusImages,
   BusSeat,
   ReservationPolicy,
@@ -11,6 +12,8 @@ import {
 } from "../components"
 
 const Detail = () => {
+  const { state: bus } = useLocation()
+
   const message = (
     <>
       One User can book only 10 seats. If you want to book more than 10 tickets,
@@ -20,6 +23,7 @@ const Detail = () => {
       </Link>
     </>
   )
+
   return (
     <div className="w-full space-y-12 pb-16 ">
       {/* Top Layout */}
@@ -31,15 +35,13 @@ const Detail = () => {
           {/* Warning Message */}
           <Warning message={message} />
           {/* Seat Layout */}
-          <BusSeat />
+          <BusSeat bus={bus} />
         </div>
         {/* Bus Detail */}
-        <div className="w-full flex items-center justify-center flex-col gap-8 text-center">
+        <div className="w-full flex items-center justify-start flex-col gap-8 text-center">
           {/* Short Description about the bus */}
           <p className="text-base text-neutral-500 font-normal text-justify">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ullam
-            possimus! Error repudiandae neque tempora! Accusamus molestias nobis
-            placeat magni, illum rem quas commodi officiis?{" "}
+            {bus.description}
             <span className="text-lg text-neutral-600 font-medium ml-2">
               Want to see more about the bus?
             </span>
@@ -52,9 +54,11 @@ const Detail = () => {
             >
               <div className="w-full space-y-10">
                 {/* Reservation Policy And Amenities */}
-                <div className="w-full grid grid-cols-7 gap-20">
+                <div className="w-full grid grid-cols-10 gap-10">
                   {/* Amenities */}
-                  <Amenities />
+                  <Amenities amenities={bus.amenities} />
+                  {/* Bus Details */}
+                  <BusDetails bus={bus} />
                   {/* Reservation Policy */}
                   <ReservationPolicy />
                 </div>

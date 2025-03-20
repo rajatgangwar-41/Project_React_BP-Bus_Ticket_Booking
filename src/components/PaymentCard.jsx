@@ -7,8 +7,10 @@ const PaymentCard = ({
   onChange,
   cardHolderName,
   cardNumber,
-  // expiryDate,
+  expiryDate,
+  cvv,
   cardImage,
+  register,
 }) => {
   return (
     <label
@@ -34,6 +36,10 @@ const PaymentCard = ({
             <p className="text-neutral-500 text-sm font-normal">
               **** **** **** {cardNumber.slice(-4)}
             </p>
+            <div className="text-neutral-500/80 text-xs italic font-normal flex items-center py-1/5 justify-between">
+              <span>{cvv}</span>
+              <span>{expiryDate}</span>
+            </div>
           </div>
         </div>
         <div className="flex items-center justify-center">
@@ -50,6 +56,7 @@ const PaymentCard = ({
         value={value}
         onChange={onChange}
         checked={selectedPayment === value}
+        {...register}
         className="hidden"
       />
     </label>

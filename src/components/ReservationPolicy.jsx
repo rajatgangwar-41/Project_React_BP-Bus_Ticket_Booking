@@ -2,7 +2,7 @@ import React from "react"
 
 const ReservationPolicy = () => {
   return (
-    <div className="w-full col-span-4 border-l border-neutral-300 pl-5">
+    <div className="w-full col-span-3 border-l border-neutral-300 pl-5">
       <div className="w-full space-y-3 text-left">
         <h1 className="text-lg text-neutral-600 font-medium text-start">
           Reservation Policy

@@ -1,14 +1,31 @@
 import { useState } from "react"
 import { PaymentCard } from "../components"
-import { creditCard, masterCard, paypal } from "../assets"
 import { FaPlus } from "react-icons/fa6"
+import { paymentMethod } from "../constants"
+import { useFormContext } from "react-hook-form"
 
 const PaymentMethod = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
+  const [isCardOpen, setIsCardOpen] = useState(false)
 
   const handleChange = (e) => {
     setSelectedPaymentMethod(e.target.value)
+    setValue("paymentMethod", e.target.value, { shouldValidate: true }) //
   }
+
+  const handleAddCard = () => {
+    setIsCardOpen((prev) => !prev)
+    clearTimeout(window.cardTimeout)
+    window.cardTimeout = setTimeout(() => {
+      setIsCardOpen(false)
+    }, 2000)
+  }
+
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext()
 
   return (
     <div className="w-full space-y-3">
@@ -16,37 +33,40 @@ const PaymentMethod = () => {
         Select Payment Method
       </h6>
       <div className="w-full grid grid-cols-2 gap-10">
-        <PaymentCard
-          selectedPayment={selectedPaymentMethod}
-          value="mastercard"
-          onChange={handleChange}
-          cardHolderName={"Rajat Gangwar"}
-          cardNumber={"1234 5678 9012 3456"}
-          cardImage={masterCard}
-        />
-        <PaymentCard
-          selectedPayment={selectedPaymentMethod}
-          value="paypal"
-          onChange={handleChange}
-          cardHolderName={"Abhishek Singh"}
-          cardNumber={"3957 4294 2434 4234"}
-          cardImage={paypal}
-        />
-        <PaymentCard
-          selectedPayment={selectedPaymentMethod}
-          value="credit card"
-          onChange={handleChange}
-          cardHolderName={"Karthik Sharma"}
-          cardNumber={"3944 3958 2042 4850"}
-          cardImage={creditCard}
-        />
+        {paymentMethod.map((card, index) => {
+          return (
+            <PaymentCard
+              key={index}
+              selectedPayment={selectedPaymentMethod}
+              value={card.method}
+              onChange={handleChange}
+              cardHolderName={card.name}
+              cardNumber={card.number}
+              cardImage={card.image}
+              cvv={card.cvv}
+              expiryDate={card.expiryDate}
+              register={register} // Pass register props
+            />
+          )
+        })}
       </div>
+      {/* Show error message */}
+      {errors.paymentMethod && (
+        <p className="text-red-500 text-xs">{errors.paymentMethod.message}</p>
+      )}
       <div className="w-full flex justify-end">
         <div className="w-fit flex items-center justify-center gap-x-2 cursor-pointer text-base font-normal text-primary">
           <FaPlus />
-          <p className="capitalize">Add New Card</p>
+          <p className="capitalize" onClick={handleAddCard}>
+            Add New Card
+          </p>
         </div>
       </div>
+      {isCardOpen && (
+        <p className="test-xs text-black/80 flex justify-end">
+          To Be Done In Future
+        </p>
+      )}
     </div>
   )
 }

@@ -17,6 +17,8 @@ import discount4 from "./discount-offers/discount4.jpg"
 import discount5 from "./discount-offers/discount5.jpg"
 import discount6 from "./discount-offers/discount6.jpg"
 
+import noResult from "./no-result.png"
+
 export {
   bus,
   creditCard,
@@ -34,4 +36,5 @@ export {
   discount4,
   discount5,
   discount6,
+  noResult,
 }

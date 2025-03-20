@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import { bus, qrCode } from "../assets"
 import { FaCircleCheck, FaPhone } from "react-icons/fa6"
 import { IoMdCloseCircle } from "react-icons/io"
+import { Context } from "../App"
 
 const PassengerInvoice = () => {
+  const { userTravelData } = useContext(Context)
+
   return (
     <div className="w-full col-span-4 rounded-3xl relative">
       {/* Top Bus Details */}
@@ -15,47 +18,84 @@ const PassengerInvoice = () => {
             className="w-auto h-12 object-cover object-center"
           />
           <h1 className="text-xl text-neutral-50 font-bold uppercase tracking-wider pt-1">
-            Random Name
+            {userTravelData?.transportName}
           </h1>
         </div>
         <div className="flex items-center gap-x-2">
           <p className="text-xl text-neutral-50 font-bold">
-            <span className="text-lg">(Bus No.)</span> DL-1234
+            <span className="text-lg">(Bus No.)</span>{" "}
+            {userTravelData?.busNumber}
           </p>
         </div>
       </div>
-      <div className="w-full grid grid-cols-5 gap-8 items-center px-5 py-6 mb-1">
+      <div className="w-full grid grid-cols-5 gap-8 items-center px-5 py-6 mb-5">
         <div className="col-span-4 space-y-3.5">
           {/* Bill No, per sea and date */}
           <div className="w-full flex items-center justify-between border-dashed border-b-2 border-neutral-200 pb-3">
             <p className="text-base text-neutral-500 font-normal">
-              Bill No. 1234
+              Bill No. {userTravelData?.billNumber}
             </p>
             <p className="text-base text-neutral-500 font-normal">
-              Rs. 1600 <span className="text-xs">/seat</span>
+              Rs. {userTravelData?.price}
+              <span className="text-xs">/seat</span>
             </p>
             <p className="text-base text-neutral-500 font-normal">
-              Date: 10-10-25<span className="text-xs">/seat</span>
+              Date: {userTravelData?.date}
             </p>
           </div>
           {/* Passenger Detail */}
           <div className="w-full flex items-center justify-between">
             <div className="space-y-1.5">
               <p className="text-base text-neutral-500 font-normal">
-                Name of Passenger:
-                <span className="font-medium"> Rajat Gangwar</span>
+                Name of Customer:
+                <span className="font-medium"> {userTravelData?.userName}</span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
+                From:
+                <span className="font-medium">
+                  {" "}
+                  {userTravelData?.routeFrom}
+                </span>
+              </p>
+              <p className="text-base text-neutral-500 font-normal">
+                To:
+                <span className="font-medium"> {userTravelData?.routeTo}</span>
+              </p>
+              <p className="w-full flex text-base text-neutral-500 font-normal">
                 Total Seats Booked:
-                <span className="font-medium"> A1, A2, A3, A4</span>
+                <span className="font-medium flex pl-2 gap-x-2">
+                  {userTravelData?.selectedSeats?.map((seatId) => {
+                    return (
+                      <li
+                        key={seatId}
+                        className="w-full h-7 px-2 bg-neutral-200/80 rounded-lg flex items-center justify-center text-sm text-neutral-700 font-semibold"
+                      >
+                        {seatId}
+                      </li>
+                    )
+                  })}
+                </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
-                Number of Passengers:
-                <span className="font-medium"> 04 Only</span>
+                Total Passengers:
+                <span className="font-medium">
+                  {" "}
+                  {userTravelData?.selectedSeats?.length}
+                </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
                 Pickup Station:
-                <span className="font-medium"> Kashmiri Gate</span>
+                <span className="font-medium">
+                  {" "}
+                  {userTravelData?.pickUpStation}
+                </span>
+              </p>
+              <p className="text-base text-neutral-500 font-normal">
+                Drop Station:
+                <span className="font-medium">
+                  {" "}
+                  {userTravelData?.dropOffStation}
+                </span>
               </p>
             </div>
             <div className="space-y-4 flex items-center justify-center flex-col">
@@ -63,7 +103,11 @@ const PassengerInvoice = () => {
                 <p className="text-base text-neutral-500 font-normal">
                   Total Price:
                 </p>
-                <h1 className="text-xl text-neutral-600 font-bold">Rs. 1600</h1>
+                <h1 className="text-xl text-neutral-600 font-bold">
+                  Rs.{" "}
+                  {userTravelData?.selectedSeats?.length *
+                    userTravelData?.price}
+                </h1>
               </div>
               <div className="w-fit px-3 py-1 border rounded-full bg-green-500/5 flex items-center justify-center gap-2 border-green-600 text-green-600 text-sm font-medium ">
                 <FaCircleCheck size={16} />
@@ -78,14 +122,19 @@ const PassengerInvoice = () => {
           {/* Route Detail */}
           <div className="w-full flex items-center justify-between border-dashed border-t-2 border-neutral-200 pt-3">
             <p className="text-base text-neutral-600 font-normal">
-              Delhi <span className="text-neutral-400 px-2"> ------ </span>
-              Kichha
+              {userTravelData?.routeFrom}{" "}
+              <span className="text-neutral-400 px-2"> ------ </span>
+              {userTravelData?.routeTo}
             </p>
             <p className="text-base text-neutral-600 font-normal">
-              Arrival Time: <span className="font-medium">2:00 PM</span>
+              Departure Time:{" "}
+              <span className="font-medium">
+                {userTravelData?.departureTime}
+              </span>
             </p>
             <p className="text-base text-neutral-600 font-normal">
-              Departure Time: <span className="font-medium">10:00 AM</span>
+              Arrival Time:{" "}
+              <span className="font-medium">{userTravelData?.arrivalTime}</span>
             </p>
           </div>
         </div>
@@ -106,7 +155,10 @@ const PassengerInvoice = () => {
         <div className="flex items-center gap-x-2">
           <FaPhone className="w-3 h-3 text-neutral-100" />
           <p className="text-sm text-neutral-100 font-light">
-            +91-9380818203, +91-9283438273
+            {userTravelData?.customerSupportContact[0]},
+          </p>
+          <p className="text-sm text-neutral-100 font-light">
+            {userTravelData?.customerSupportContact[1]}
           </p>
         </div>
       </div>

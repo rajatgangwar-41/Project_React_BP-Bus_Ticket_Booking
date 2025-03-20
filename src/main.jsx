@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import App from "./App.jsx"
 import {
   Home,
-  About,
+  Contact,
   Ticket,
   Detail,
   Checkout,
@@ -30,19 +30,19 @@ const router = createBrowserRouter([
         element: <Ticket />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/contact",
+        element: <Contact />,
       },
       {
-        path: "/tickets/detail",
+        path: "/ticket-book",
         element: <Detail />,
       },
       {
-        path: "/tickets/checkout",
+        path: "/ticket-checkout",
         element: <Checkout />,
       },
       {
-        path: "/tickets/payment",
+        path: "/ticket-payment",
         element: <Invoice />,
       },
     ],

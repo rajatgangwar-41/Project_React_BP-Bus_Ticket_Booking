@@ -2,7 +2,7 @@ import Header from "./Header"
 import Footer from "./Footer"
 import Hero from "./Hero"
 import Search from "./Search"
-import Service from "./Service"
+import Services from "./Services"
 import ServiceCard from "./ServiceCard"
 import TopSearch from "./TopSearch"
 import TopSearchCard from "./TopSearchCard"
@@ -25,13 +25,14 @@ import PassengerInvoice from "./PassengerInvoice"
 import CompanyInvoice from "./CompanyInvoice"
 import Discount from "./Discount"
 import DiscountCard from "./DiscountCard"
+import BusDetails from "./BusDetails"
 
 export {
   Header,
   Footer,
   Hero,
   Search,
-  Service,
+  Services,
   ServiceCard,
   TopSearch,
   TopSearchCard,
@@ -54,4 +55,5 @@ export {
   CompanyInvoice,
   Discount,
   DiscountCard,
+  BusDetails,
 }

@@ -1,9 +1,9 @@
 import Home from "./Home"
 import Service from "./Service"
-import About from "./About"
+import Contact from "./Contact"
 import Ticket from "./Ticket"
 import Detail from "./Detail"
 import Checkout from "./Checkout"
 import Invoice from "./Invoice"
 
-export { Home, Service, About, Ticket, Detail, Checkout, Invoice }
+export { Home, Service, Contact, Ticket, Detail, Checkout, Invoice }

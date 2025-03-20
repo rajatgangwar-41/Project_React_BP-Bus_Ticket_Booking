@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { GiSteeringWheel } from "react-icons/gi"
-import busSeatData from "../constants/busSeatData"
 import { MdOutlineChair } from "react-icons/md"
 import { RiMoneyRupeeCircleLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import { ErrorMessage } from "../components"
+import { Context } from "../App"
 
-const BusSeat = () => {
+const BusSeat = ({ bus }) => {
   // Track Seat Selection
-  const [selectedSeats, setSelectedSeats] = useState([])
+  // const [selectedSeats, setSelectedSeats] = useState([])
+  const { userTravelData, setUserTravelData } = useContext(Context)
   const [showError, setShowError] = useState(false)
 
   // Handle Seat Selection
   const handleSeatClick = (seatId) => {
-    // If the seat is already booked, ignore the click or disable it
-    const selectedSeat = busSeatData.find((seat) => seat.id === seatId)
-    if (selectedSeat.status === "booked") return
+    setUserTravelData((prev) => {
+      // Ensure prev is not null
+      if (!prev) return { selectedSeats: [seatId] }
 
-    // If the seat is available, select it
-    setSelectedSeats((prevSelectedSeats) => {
-      // check if the seat is already selected
-      if (prevSelectedSeats.includes(seatId))
-        return prevSelectedSeats.filter((seat) => seat !== seatId)
-      // check if the user has selected more than 10 seats
-      else if (prevSelectedSeats.length >= 10) {
+      const { selectedSeats = [] } = prev
+
+      // If the seat is already selected, remove it
+      if (selectedSeats.includes(seatId)) {
+        return {
+          ...prev,
+          selectedSeats: selectedSeats.filter((seat) => seat !== seatId),
+        }
+      }
+
+      // Check if user has selected more than 10 seats
+      if (selectedSeats.length >= 10) {
         setShowError(true)
-        return prevSelectedSeats
-      } else return [...prevSelectedSeats, seatId]
+        return { ...prev } // Keep state unchanged
+      }
+
+      // Add new seat selection
+      return { ...prev, selectedSeats: [...selectedSeats, seatId] }
     })
   }
 
@@ -40,10 +49,12 @@ const BusSeat = () => {
     }
   }, [showError])
 
+  console.log(userTravelData)
+
   // Function to determine seat class based on status
   const getSeatName = (seat) => {
-    if (seat.status === "booked") return "text-primary cursor-not-allowed"
-    else if (selectedSeats.includes(seat.id))
+    if (seat.status === "Booked") return "text-primary cursor-not-allowed"
+    else if (userTravelData?.selectedSeats?.includes(seat.id))
       return "text-yellow-600 cursor-pointer"
     else return "text-neutral-500 cursor-pointer"
   }
@@ -54,7 +65,7 @@ const BusSeat = () => {
       <div className="col-span-3 w-full items-center justify-center shadow-sm rounded-xl p-4 border border-neutral-200">
         <div className="w-full space-y-7">
           <p className="text-base text-neutral-600 font-medium text-center">
-            Click on available seats to reserve your seat.
+            Click on available seats to book your seat.
           </p>
           {/* Seat Layout */}
           <div className="w-full flex items-stretch gap-x-1.5">
@@ -65,7 +76,7 @@ const BusSeat = () => {
             <div className="flex flex-col items-center border-l-2 border-dashed border-neutral-300 pl-7">
               <div className="flex-1 space-y-1">
                 <div className="w-full h-auto grid grid-cols-9 gap-x-5 justify-end">
-                  {busSeatData.slice(0, 9).map((seat) => (
+                  {bus?.seats?.slice(0, 9).map((seat) => (
                     <div
                       key={seat.id}
                       onClick={() => handleSeatClick(seat.id)}
@@ -81,8 +92,7 @@ const BusSeat = () => {
                   ))}
                 </div>
                 <div className="w-full h-auto grid grid-cols-9 gap-x-5 justify-end">
-                  {" "}
-                  {busSeatData.slice(9, 18).map((seat) => (
+                  {bus?.seats?.slice(9, 18).map((seat) => (
                     <div
                       key={seat.id}
                       onClick={() => handleSeatClick(seat.id)}
@@ -99,7 +109,7 @@ const BusSeat = () => {
                 </div>
                 <div className="w-full h-auto grid grid-cols-10 gap-x-5 justify-end">
                   <div className="col-span-9"></div>
-                  {busSeatData.slice(18, 19).map((seat) => (
+                  {bus?.seats?.slice(18, 19).map((seat) => (
                     <div
                       key={seat.id}
                       onClick={() => handleSeatClick(seat.id)}
@@ -115,8 +125,7 @@ const BusSeat = () => {
                   ))}
                 </div>
                 <div className="w-full h-auto grid grid-cols-9 gap-x-5 justify-end">
-                  {" "}
-                  {busSeatData.slice(19, 28).map((seat) => (
+                  {bus?.seats?.slice(19, 28).map((seat) => (
                     <div
                       key={seat.id}
                       onClick={() => handleSeatClick(seat.id)}
@@ -132,8 +141,7 @@ const BusSeat = () => {
                   ))}
                 </div>
                 <div className="w-full h-auto grid grid-cols-9 gap-x-5 justify-end">
-                  {" "}
-                  {busSeatData.slice(28, 37).map((seat) => (
+                  {bus?.seats?.slice(28, 37).map((seat) => (
                     <div
                       key={seat.id}
                       onClick={() => handleSeatClick(seat.id)}
@@ -184,21 +192,33 @@ const BusSeat = () => {
             </Link>
           </div>
           <div className="space-y-0.5 w-full">
-            <div className="w-full flex items-center justify-between gap-x-5">
+            <div className="w-full flex items-center justify-between">
               <p className="text-sm text-neutral-400 font-normal">
-                From <span className="text-xs">(Kashmiri gate)</span>
+                From
+                {/* <span className="text-xs">
+                  ({userTravelData?.boardingPoint})
+                </span> */}
               </p>
               <p className="text-sm text-neutral-400 font-normal">
-                To <span className="text-xs">(kichha)</span>
+                To
+                {/* <span className="text-xs">
+                  ({userTravelData?.dropOffPoint})
+                </span> */}
               </p>
             </div>
-            <div className="w-full flex items-center justify-between gap-x-4 ">
-              <h1 className="text-sm text-neutral-600 font-normal">
-                Delhi <span className="font-medium">(08:00 am)</span>
+            <div className="w-full flex items-center justify-between gap-x-2">
+              <h1 className="text-lg flex flex-col text-neutral-600 font-normal">
+                {userTravelData?.routeFrom}
+                <span className="font-medium text-sm">
+                  ({userTravelData?.departureTime})
+                </span>
               </h1>
               <div className="flex-1 border-dashed border border-neutral-300"></div>
-              <h1 className="text-sm text-neutral-600 font-normal">
-                Kichha <span className="font-medium">(12:00 pm)</span>
+              <h1 className="text-lg flex flex-col text-neutral-600 font-normal text-right">
+                {userTravelData?.routeTo}
+                <span className="font-medium text-sm">
+                  ({userTravelData?.arrivalTime})
+                </span>
               </h1>
             </div>
           </div>
@@ -209,13 +229,12 @@ const BusSeat = () => {
               Selected Seats
             </h1>
             <div className="bg-primary/20 rounded-lg py-0.5 px-1.5 text-xs text-neutral-600 font-normal uppercase">
-              {" "}
               Non-Refundable
             </div>
           </div>
-          {selectedSeats.length > 0 ? (
+          {userTravelData?.selectedSeats?.length > 0 ? (
             <div className="w-full flex items-center gap-x-3">
-              {selectedSeats.map((seatId) => {
+              {userTravelData?.selectedSeats?.map((seatId) => {
                 return (
                   <div
                     key={seatId}
@@ -238,7 +257,9 @@ const BusSeat = () => {
           <h1 className="text-lg text-neutral-600 font-medium">Fair Details</h1>
           <div className="w-full flex items-center justify-between border-l-[1.5px] border-dashed border-neutral-400 pl-2">
             <h3 className="text-sm text-neutral-500 font-medium">Basic Fare</h3>
-            <p className="text-sm text-neutral-600 font-medium">Rs. 1600</p>
+            <p className="text-sm text-neutral-600 font-medium">
+              Rs. {userTravelData?.price}
+            </p>
           </div>
           <div className="flex items-center justify-between gap-x-4">
             <div className="flex gap-y-0.5 flex-col">
@@ -252,19 +273,20 @@ const BusSeat = () => {
             {/* Calculate the total price */}
             <p className="text-base text-neutral-600 font-semibold">
               Rs.
-              {selectedSeats.reduce((total, seatId) => {
-                const seat = busSeatData.find(
+              {userTravelData?.selectedSeats?.reduce((total, seatId) => {
+                const seat = bus?.seats?.find(
                   (busSeat) => busSeat.id === seatId
                 )
-                return total + (seat ? seat.price : 0)
+                return total + (seat ? bus.price : 0)
               }, 0)}
             </p>
           </div>
         </div>
         <div className="w-full flex items-center justify-center">
-          {selectedSeats.length > 0 ? (
+          {userTravelData?.selectedSeats?.length > 0 ? (
             <Link
-              to="/tickets/checkout"
+              to="/ticket-checkout"
+              state={bus}
               className="w-full bg-primary hover:bg-primary/90 text-sm text-neutral-50 font-normal py-2.5 flex items-center justify-center uppercase rounded-lg transition"
             >
               Proceed To Checkout
