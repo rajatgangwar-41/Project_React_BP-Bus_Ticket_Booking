@@ -1,11 +1,12 @@
-import React from "react"
+/* eslint-disable no-unused-vars */
 import { busInside } from "../assets"
 import { AppLayout, TopLayout } from "../layout"
 import { PassengerData, BookingStatus } from "../components"
-import { useLocation } from "react-router-dom"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, FormProvider } from "react-hook-form"
+import { motion } from "motion/react"
+import { useFilter } from "../hooks/useFilter"
 
 const bookingSchema = z.object({
   fullName: z
@@ -28,7 +29,7 @@ const bookingSchema = z.object({
 })
 
 const Checkout = () => {
-  const { state: bus } = useLocation()
+  const { state } = useFilter()
 
   const methods = useForm({
     resolver: zodResolver(bookingSchema),
@@ -44,19 +45,37 @@ const Checkout = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="w-full space-y-12 pb-16 ">
+      <div className="w-full space-y-12 pb-16">
         {/* Top Layout */}
         <TopLayout bgImg={busInside} title="Checkout" />
+
         {/* Root Layout */}
         <AppLayout className="space-y-12 w-full pb-16">
-          <div className="w-full grid grid-cols-7 items-start gap-44 relative ">
-            {/* Passenger Data */}
-            <PassengerData
-              boardingPoints={bus.boardingPoints}
-              dropOffPoints={bus.dropOffPoints}
-            />
-            {/* Ticket Report Status */}
-            <BookingStatus />
+          <div className="w-full grid grid-cols-7 items-start gap-44 relative">
+            {/* Passenger Data (Animated Without Extra Div) */}
+            <motion.div
+              className="col-span-4" // Keep your grid structure
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5 }}
+            >
+              <PassengerData
+                boardingPoints={state?.userTravelData?.bus?.boardingPoints}
+                dropOffPoints={state?.userTravelData?.bus?.dropOffPoints}
+              />
+            </motion.div>
+
+            {/* Ticket Report Status (Animated Without Extra Div) */}
+            <motion.div
+              className="col-span-3" // Keep your grid structure
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <BookingStatus />
+            </motion.div>
           </div>
         </AppLayout>
       </div>

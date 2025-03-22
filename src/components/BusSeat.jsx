@@ -1,42 +1,45 @@
-import React, { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { GiSteeringWheel } from "react-icons/gi"
 import { MdOutlineChair } from "react-icons/md"
 import { RiMoneyRupeeCircleLine } from "react-icons/ri"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ErrorMessage } from "../components"
-import { Context } from "../App"
+import { useFilter } from "../hooks/useFilter"
 
 const BusSeat = ({ bus }) => {
-  // Track Seat Selection
-  // const [selectedSeats, setSelectedSeats] = useState([])
-  const { userTravelData, setUserTravelData } = useContext(Context)
+  const [selectedSeats, setSelectedSeats] = useState([])
   const [showError, setShowError] = useState(false)
+  const { setUserTravelData } = useFilter()
+  const navigate = useNavigate()
 
   // Handle Seat Selection
   const handleSeatClick = (seatId) => {
-    setUserTravelData((prev) => {
-      // Ensure prev is not null
-      if (!prev) return { selectedSeats: [seatId] }
+    setSelectedSeats((prev) => {
+      if (prev.length === 0) return [seatId]
 
-      const { selectedSeats = [] } = prev
+      if (prev.includes(seatId)) return prev.filter((seat) => seat !== seatId)
 
-      // If the seat is already selected, remove it
-      if (selectedSeats.includes(seatId)) {
-        return {
-          ...prev,
-          selectedSeats: selectedSeats.filter((seat) => seat !== seatId),
-        }
-      }
-
-      // Check if user has selected more than 10 seats
-      if (selectedSeats.length >= 10) {
+      if (prev.length >= 10) {
         setShowError(true)
-        return { ...prev } // Keep state unchanged
+        return prev
       }
 
-      // Add new seat selection
-      return { ...prev, selectedSeats: [...selectedSeats, seatId] }
+      return [...prev, seatId]
     })
+  }
+
+  const onSubmit = () => {
+    setUserTravelData({
+      bus,
+      selectedSeats,
+      originalPrice: selectedSeats?.length * bus?.price,
+    })
+    navigate(
+      `/ticket-checkout/${Math.random()
+        .toString(36)
+        .substring(2, 12)
+        .toUpperCase()}`
+    )
   }
 
   // Hide the error message after 10 seconds
@@ -49,12 +52,10 @@ const BusSeat = ({ bus }) => {
     }
   }, [showError])
 
-  console.log(userTravelData)
-
   // Function to determine seat class based on status
   const getSeatName = (seat) => {
     if (seat.status === "Booked") return "text-primary cursor-not-allowed"
-    else if (userTravelData?.selectedSeats?.includes(seat.id))
+    else if (selectedSeats?.includes(seat.id))
       return "text-yellow-600 cursor-pointer"
     else return "text-neutral-500 cursor-pointer"
   }
@@ -175,7 +176,9 @@ const BusSeat = ({ bus }) => {
             </div>
             <div className="flex items-center gap-x-2">
               <RiMoneyRupeeCircleLine className="text-xl text-neutral-500" />
-              <p className="text-sm text-neutral-500 font-medium1">Rs. 1600</p>
+              <p className="text-sm text-neutral-500 font-medium1">
+                Rs. {bus?.price}
+              </p>
             </div>
           </div>
         </div>
@@ -208,16 +211,16 @@ const BusSeat = ({ bus }) => {
             </div>
             <div className="w-full flex items-center justify-between gap-x-2">
               <h1 className="text-lg flex flex-col text-neutral-600 font-normal">
-                {userTravelData?.routeFrom}
+                {bus?.routeFrom}
                 <span className="font-medium text-sm">
-                  ({userTravelData?.departureTime})
+                  ({bus?.departureTime})
                 </span>
               </h1>
               <div className="flex-1 border-dashed border border-neutral-300"></div>
               <h1 className="text-lg flex flex-col text-neutral-600 font-normal text-right">
-                {userTravelData?.routeTo}
+                {bus?.routeTo}
                 <span className="font-medium text-sm">
-                  ({userTravelData?.arrivalTime})
+                  ({bus?.arrivalTime})
                 </span>
               </h1>
             </div>
@@ -232,9 +235,9 @@ const BusSeat = ({ bus }) => {
               Non-Refundable
             </div>
           </div>
-          {userTravelData?.selectedSeats?.length > 0 ? (
+          {selectedSeats?.length > 0 ? (
             <div className="w-full flex items-center gap-x-3">
-              {userTravelData?.selectedSeats?.map((seatId) => {
+              {selectedSeats?.map((seatId) => {
                 return (
                   <div
                     key={seatId}
@@ -258,7 +261,7 @@ const BusSeat = ({ bus }) => {
           <div className="w-full flex items-center justify-between border-l-[1.5px] border-dashed border-neutral-400 pl-2">
             <h3 className="text-sm text-neutral-500 font-medium">Basic Fare</h3>
             <p className="text-sm text-neutral-600 font-medium">
-              Rs. {userTravelData?.price}
+              Rs. {bus?.price}
             </p>
           </div>
           <div className="flex items-center justify-between gap-x-4">
@@ -273,24 +276,24 @@ const BusSeat = ({ bus }) => {
             {/* Calculate the total price */}
             <p className="text-base text-neutral-600 font-semibold">
               Rs.
-              {userTravelData?.selectedSeats?.reduce((total, seatId) => {
+              {selectedSeats?.reduce((total, seatId) => {
                 const seat = bus?.seats?.find(
                   (busSeat) => busSeat.id === seatId
                 )
                 return total + (seat ? bus.price : 0)
-              }, 0)}
+              }, 0) || 0}
             </p>
           </div>
         </div>
         <div className="w-full flex items-center justify-center">
-          {userTravelData?.selectedSeats?.length > 0 ? (
-            <Link
-              to="/ticket-checkout"
+          {selectedSeats?.length > 0 ? (
+            <button
               state={bus}
-              className="w-full bg-primary hover:bg-primary/90 text-sm text-neutral-50 font-normal py-2.5 flex items-center justify-center uppercase rounded-lg transition"
+              onClick={onSubmit}
+              className="w-full bg-primary hover:bg-primary/90 text-sm text-neutral-50 font-normal py-2.5 flex items-center justify-center cursor-pointer uppercase rounded-lg transition"
             >
               Proceed To Checkout
-            </Link>
+            </button>
           ) : (
             <div className="w-full space-y-0.5">
               <button className="w-full bg-primary hover:bg-primary/90 text-sm text-neutral-50 font-normal py-2.5 flex items-center justify-center uppercase rounded-lg transition cursor-not-allowed">

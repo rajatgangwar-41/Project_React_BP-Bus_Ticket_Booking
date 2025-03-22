@@ -1,18 +1,22 @@
 /* eslint-disable no-unused-vars */
+import { useEffect } from "react"
 import { busInside } from "../assets"
 import { Search, Filter, SearchResult } from "../components"
 import { AppLayout, TopLayout } from "../layout"
 import { motion } from "motion/react"
+import { useFilter } from "../hooks/useFilter"
 
 const Ticket = () => {
+  const { resetFilter } = useFilter()
+
+  // useEffect(() => {
+  //   return () => resetFilter()
+  // }, [resetFilter])
+
   return (
     <div className="w-full space-y-12 pb-16 ">
       {/* Top Layout */}
-      <TopLayout
-        bgImg={busInside}
-        title="Reserve Your Ticket"
-        className=""
-      ></TopLayout>
+      <TopLayout bgImg={busInside} title="Reserve Your Ticket" className="" />
       {/* Root Layout */}
       <AppLayout className="space-y-12 relative">
         {/* Search Section */}

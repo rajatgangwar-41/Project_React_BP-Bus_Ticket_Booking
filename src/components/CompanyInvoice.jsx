@@ -1,9 +1,8 @@
-import { useContext } from "react"
 import { FaPhone } from "react-icons/fa6"
-import { Context } from "../App"
+import { useFilter } from "../hooks/useFilter"
 
 const CompanyInvoice = () => {
-  const { userTravelData } = useContext(Context)
+  const { state } = useFilter()
 
   return (
     <div className="w-full col-span-1 border-dashed border-l-2 border-neutral-400 relative">
@@ -14,32 +13,42 @@ const CompanyInvoice = () => {
       </div>
       <div className="w-full px-4 py-7 space-y-1">
         <p className="text-sm text-neutral-600 font-normal">
-          Bill No. {userTravelData?.billNumber}
-        </p>
-        <p className="text-sm text-neutral-600 font-normal">Date: 2024-10-10</p>
-        <p className="text-sm text-neutral-600 font-normal">
-          Name: {userTravelData?.userName}
+          Bill No. {state?.userTravelData?.billNumber}
         </p>
         <p className="text-sm text-neutral-600 font-normal">
-          From: {userTravelData?.routeFrom}{" "}
-          <span className="text-xs">({userTravelData?.pickUpStation})</span>
+          Date: {state?.userTravelData?.bus?.date}
         </p>
         <p className="text-sm text-neutral-600 font-normal">
-          To: {userTravelData?.routeTo}{" "}
-          <span className="text-xs">({userTravelData?.dropOffStation})</span>
+          Name: {state?.userTravelData?.userName}
+        </p>
+        <p className="text-sm text-neutral-600 font-normal">
+          From: {state?.userTravelData?.bus?.routeFrom}{" "}
+          <span className="text-xs">
+            ({state?.userTravelData?.pickUpStation})
+          </span>
+        </p>
+        <p className="text-sm text-neutral-600 font-normal">
+          To: {state?.userTravelData?.bus?.routeTo}{" "}
+          <span className="text-xs">
+            ({state?.userTravelData?.dropOffStation})
+          </span>
         </p>
         <p className="text-sm text-neutral-600 font-normal">
           Departure Time:{" "}
-          <span className="text-sm">{userTravelData?.departureTime}</span>
+          <span className="text-sm">
+            {state?.userTravelData?.bus?.departureTime}
+          </span>
         </p>
         <p className="text-sm text-neutral-600 font-normal">
           Arrival Time:{" "}
-          <span className="text-sm">{userTravelData?.arrivalTime}</span>
+          <span className="text-sm">
+            {state?.userTravelData?.bus?.arrivalTime}
+          </span>
         </p>
         <p className="text-sm flex  text-neutral-600 font-normal">
           Seat No:{" "}
           <span className="font-medium flex pl-2 gap-x-2">
-            {userTravelData?.selectedSeats?.map((seatId) => {
+            {state?.userTravelData?.selectedSeats?.map((seatId) => {
               return (
                 <li
                   key={seatId}
@@ -52,11 +61,12 @@ const CompanyInvoice = () => {
           </span>
         </p>
         <p className="text-sm text-neutral-600 font-normal">
-          Total Passenger: {userTravelData?.selectedSeats?.length}
+          Total Passenger: {state?.userTravelData?.selectedSeats?.length}
         </p>
         <p className="text-sm text-neutral-600 font-normal">
           Total Price: Rs.{" "}
-          {userTravelData?.selectedSeats?.length * userTravelData?.price}
+          {state?.userTravelData?.discountedPrice ||
+            state?.userTravelData?.originalPrice}
         </p>
       </div>
       {/* Right Bottom Section */}
@@ -64,7 +74,7 @@ const CompanyInvoice = () => {
         <div className="flex items-center gap-x-2">
           <FaPhone className="w-3 h-3 text-neutral-100" />
           <p className="text-sm text-neutral-100 font-light">
-            +91-{userTravelData?.userNumber}
+            +91-{state?.userTravelData?.userNumber}
           </p>
         </div>
       </div>

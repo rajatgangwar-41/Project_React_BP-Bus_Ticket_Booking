@@ -1,181 +1,200 @@
-import { Link } from "react-router-dom"
+/* eslint-disable no-unused-vars */
+import { Link, useNavigate } from "react-router-dom"
+import { motion } from "motion/react"
 import AppLayout from "../layout/AppLayout"
-import { FaFacebook, FaInstagram, FaXTwitter, FaYoutube } from "react-icons/fa6"
-import { MdEmail } from "react-icons/md"
-
 import { masterCard, creditCard, paypal } from "../assets"
+import { socialMedia } from "../constants"
+import { useEffect } from "react"
+import { useFilter } from "../hooks/useFilter"
+
+const fadeUpVariant = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+}
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+  },
+}
 
 const Footer = () => {
+  const { setSearch, applyFilter } = useFilter()
+  const navigate = useNavigate()
+
+  const handleRouteClick = (from, to) => {
+    setSearch({ routeFrom: from, routeTo: to })
+    applyFilter()
+    navigate("/tickets")
+  }
+
   return (
-    <div className="w-full h-auto bg-neutral-950 py-10">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="w-full h-auto bg-neutral-950 py-10"
+    >
       <AppLayout className="space-y-10">
-        {/* Footer Other Content */}
-        <div className="w-full grid grid-cols-5 gap-8">
-          <div className="col-span-2 space-y-8 md:pr-10 pr-0">
+        {/* Footer Content */}
+        <motion.div
+          variants={staggerContainer}
+          className="w-full grid grid-cols-5 gap-8"
+        >
+          {/* Logo & Description */}
+          <motion.div
+            variants={fadeUpVariant}
+            className="col-span-2 space-y-8 md:pr-10 pr-0"
+          >
             <div className="space-y-3">
-              {/* logo */}
               <Link to="/" className="text-6xl text-primary font-bold">
                 Bus
               </Link>
-              {/* Some Description */}
               <p className="w-8/10 pt-3 text-base text-neutral-500 font-normal text-justify">
                 Our online bus ticket booking website makes travel easy and
-                hassle-free. Search for routes, compare fares, and book tickets
-                instantly. Enjoy a seamless experience with secure payments,
-                real-time seat selection, and instant confirmations. Travel
-                smarter with our user-friendly platform, offering convenience,
-                affordability, and reliable customer support.
+                hassle-free. Enjoy secure payments, real-time seat selection,
+                and instant confirmations.
               </p>
             </div>
+
             {/* Social Links */}
-            <div className="w-full flex items-center gap-x-5">
-              <div className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-500">
-                <FaInstagram className="w-5 h-5 text-neutral-50" />
-              </div>
-              <div className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-500">
-                <FaFacebook className="w-5 h-5 text-neutral-50" />
-              </div>
-              <div className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-500">
-                <FaYoutube className="w-5 h-5 text-neutral-50" />
-              </div>
-              <div className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-500">
-                <FaXTwitter className="w-5 h-5 text-neutral-50" />
-              </div>
-              <div className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-500">
-                <MdEmail className="w-5 h-5 text-neutral-50" />
-              </div>
-            </div>
-          </div>
-          <div className="col-span-1 space-y-5 mt-10">
-            <h1 className="text-lg text-neutral-100 font-semibold ">
+            <motion.ul
+              variants={staggerContainer}
+              className="w-full flex items-center gap-x-5"
+            >
+              {socialMedia.map((ele) => (
+                <motion.li
+                  key={ele.id}
+                  variants={fadeUpVariant}
+                  onClick={() => window.open(ele.url, "_blank")}
+                  whileHover={{ scale: 1.1 }}
+                  className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-300"
+                >
+                  <ele.icon className="w-5 h-5 text-neutral-50" />
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+
+          {/* Quick Links */}
+          <motion.div
+            variants={fadeUpVariant}
+            className="col-span-1 space-y-5 mt-10"
+          >
+            <h1 className="text-lg text-neutral-100 font-semibold">
               Quick Links
             </h1>
-            <div className="space-y-2">
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                About Us
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                My Account
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Reserve Your Ticket
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Create Your Account
-              </Link>
-            </div>
-          </div>
-          <div className="col-span-1 space-y-5 mt-10">
-            <h1 className="text-lg text-neutral-100 font-semibold ">
+            <motion.div variants={staggerContainer} className="space-y-2">
+              {[
+                "About Us",
+                "My Account",
+                "Reserve Your Ticket",
+                "Create Your Account",
+              ].map((item, index) => (
+                <motion.div key={index} variants={fadeUpVariant}>
+                  <Link
+                    to="/"
+                    className="block text-base cursor-pointer text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                  >
+                    {item}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Top Reserved Routes */}
+          <motion.div
+            variants={fadeUpVariant}
+            className="col-span-1 space-y-5 mt-10"
+          >
+            <h1 className="text-lg text-neutral-100 font-semibold">
               Top Reserved Routes
             </h1>
-            <div className="space-y-2">
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Delhi - Mumbai
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Delhi - Goa
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Goa - Pune
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Pune - Nagpur
-              </Link>
-            </div>
-          </div>
-          <div className="col-span-1 space-y-5 mt-10">
-            <h1 className="text-lg text-neutral-100 font-semibold ">
+            <motion.div variants={staggerContainer} className="space-y-2">
+              {[
+                { from: "Delhi", to: "Mumbai" },
+                { from: "Delhi", to: "Jaipur" },
+                { from: "Mumbai", to: "Nashik" },
+                { from: "Pune", to: "Nagpur" },
+              ].map((route, index) => (
+                <motion.button
+                  key={index}
+                  variants={fadeUpVariant}
+                  onClick={() => handleRouteClick(route.from, route.to)}
+                  className="block cursor-pointer text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                >
+                  {route.from} - {route.to}
+                </motion.button>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Support Links */}
+          <motion.div
+            variants={fadeUpVariant}
+            className="col-span-1 space-y-5 mt-10"
+          >
+            <h1 className="text-lg text-neutral-100 font-semibold">
               Support Links
             </h1>
-            <div className="space-y-2">
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Terms & Conditions
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                Help & Support Center
-              </Link>
-              <Link
-                to="/"
-                className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
-              >
-                FAQs
-              </Link>
-            </div>
-          </div>
-        </div>
+            <motion.div variants={staggerContainer} className="space-y-2">
+              {[
+                "Privacy Policy",
+                "Terms & Conditions",
+                "Help & Support Center",
+                "FAQs",
+              ].map((item, index) => (
+                <motion.div key={index} variants={fadeUpVariant}>
+                  <Link
+                    to="/contact"
+                    className="block text-base cursor-pointer text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                  >
+                    {item}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
         {/* Separator */}
-        <div className="w-full h-px bg-neutral-800/50" />
-        {/* Copyright */}
-        <div className="w-full flex items-center justify-between">
+        <motion.div
+          variants={fadeUpVariant}
+          className="w-full h-px bg-neutral-800/50"
+        />
+
+        {/* Copyright & Payment Methods */}
+        <motion.div
+          variants={fadeUpVariant}
+          className="w-full flex items-center justify-between"
+        >
           <p className="text-sm text-neutral-600 font-normal">
             Copyright &copy; 2025. All Rights Reserved
           </p>
           <p className="text-sm text-neutral-600 font-normal pr-[5%]">
             Made with 💗 by Rajat Gangwar
           </p>
-          <div className="flex items-center gap-x-2">
-            <div className="">
-              <img
-                src={masterCard}
+          <motion.div
+            variants={staggerContainer}
+            className="flex items-center gap-x-2"
+          >
+            {[masterCard, paypal, creditCard].map((image, index) => (
+              <motion.img
+                key={index}
+                src={image}
                 alt=""
-                className="w-fit h-9 object-contain object-center"
+                variants={fadeUpVariant}
+                whileHover={{ scale: 1.1 }}
+                className="w-fit h-9 object-contain object-center cursor-pointer ease-in-out duration-300"
               />
-            </div>
-            <div className="">
-              <img
-                src={paypal}
-                alt=""
-                className="w-fit h-9 object-contain object-center"
-              />
-            </div>
-            <div className="">
-              <img
-                src={creditCard}
-                alt=""
-                className="w-fit h-9 object-contain object-center"
-              />
-            </div>
-          </div>
-        </div>
+            ))}
+          </motion.div>
+        </motion.div>
       </AppLayout>
-    </div>
+    </motion.div>
   )
 }
 

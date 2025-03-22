@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { motion } from "motion/react"
 import { AppLayout, TopLayout } from "../layout"
 import { busInside } from "../assets"
 import { Link, useLocation } from "react-router-dom"
@@ -25,20 +27,34 @@ const Detail = () => {
   )
 
   return (
-    <div className="w-full space-y-12 pb-16 ">
+    <motion.div
+      className="w-full space-y-12 pb-16"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.8 } }}
+    >
       {/* Top Layout */}
-      <TopLayout bgImg={busInside} title="Bus Details" className=""></TopLayout>
+      <TopLayout bgImg={busInside} title="Bus Details" />
+
       {/* Root Layout */}
       <AppLayout className="space-y-12 w-full pb-16">
         {/* Seat Layout and selection action detail */}
-        <div className="w-full space-y-8">
-          {/* Warning Message */}
-          <Warning message={message} />
-          {/* Seat Layout */}
-          <BusSeat bus={bus} />
-        </div>
-        {/* Bus Detail */}
-        <div className="w-full flex items-center justify-start flex-col gap-8 text-center">
+        <Reveal>
+          <div className="w-full space-y-8">
+            {/* Warning Message */}
+            <Warning message={message} />
+            {/* Seat Layout */}
+            <BusSeat bus={bus} />
+          </div>
+        </Reveal>
+
+        {/* Bus Detail (Fixed) */}
+        <motion.div
+          className="w-full flex items-center justify-start flex-col gap-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           {/* Short Description about the bus */}
           <p className="text-base text-neutral-500 font-normal text-justify">
             {bus.description}
@@ -46,13 +62,25 @@ const Detail = () => {
               Want to see more about the bus?
             </span>
           </p>
+
           {/* Button */}
-          <div className="w-full flex items-center justify-center gap-6 flex-col">
+          <motion.div
+            className="w-full flex items-center justify-center gap-6 flex-col"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
             <ToggleButton
               buttonText={"See Bus Details"}
               buttonTextHidden={"Hide Bus Details"}
             >
-              <div className="w-full space-y-10">
+              <motion.div
+                className="w-full space-y-10"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
                 {/* Reservation Policy And Amenities */}
                 <div className="w-full grid grid-cols-10 gap-10">
                   {/* Amenities */}
@@ -64,12 +92,26 @@ const Detail = () => {
                 </div>
                 {/* Bus Images */}
                 <BusImages />
-              </div>
+              </motion.div>
             </ToggleButton>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </AppLayout>
-    </div>
+    </motion.div>
+  )
+}
+
+// Scroll Reveal Wrapper Component
+const Reveal = ({ children }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
   )
 }
 

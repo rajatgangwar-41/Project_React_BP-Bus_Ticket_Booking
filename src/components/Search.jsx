@@ -1,42 +1,24 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 import { motion } from "motion/react"
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
 import { TbArrowsExchange } from "react-icons/tb"
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa"
-import { Context } from "../App"
 import { useNavigate } from "react-router-dom"
-import useFilter from "../hooks/useFilter"
 import { IoMdCloseCircle } from "react-icons/io"
+import { useFilter } from "../hooks/useFilter"
 
 const Search = () => {
-  const { search, setSearch, setFilteredData } = useContext(Context)
+  const { state, setSearch, applyFilter, resetFilters } = useFilter()
   const navigate = useNavigate()
 
-  const handleSearch = (e) => {
-    const { name, value } = e.target
-
-    setSearch((prev) => {
-      return { ...prev, [name]: value }
-    })
-
-    console.log(name, value)
-  }
-
-  const handleClearFilter = () => {
-    setSearch({ routeFrom: "", routeTo: "", date: "" })
-  }
-
   const handleSubmit = () => {
-    const filteredData = useFilter(search)
-    setFilteredData(filteredData)
+    applyFilter()
     navigate("/tickets")
   }
 
-  useEffect(() => {
-    if (search.routeFrom === "" && search.routeTo === "" && search.date === "")
-      setFilteredData(useFilter(search))
-  }, [search, setFilteredData])
+  // useEffect(() => {
+  //   applyFilter()
+  // }, [applyFilter])
 
   return (
     <motion.div
@@ -51,8 +33,8 @@ const Search = () => {
             <input
               type="text"
               name="routeFrom"
-              value={search.routeFrom}
-              onChange={handleSearch}
+              value={state.search.routeFrom}
+              onChange={(e) => setSearch({ [e.target.name]: e.target.value })}
               className="flex flex-1 h-full border-none bg-transparent focus:outline-none"
               placeholder="From..."
             />
@@ -64,8 +46,8 @@ const Search = () => {
             <input
               type="text"
               name="routeTo"
-              value={search.routeTo}
-              onChange={handleSearch}
+              value={state.search.routeTo}
+              onChange={(e) => setSearch({ [e.target.name]: e.target.value })}
               className="flex flex-1 h-full border-none bg-transparent focus:outline-none"
               placeholder="To..."
             />
@@ -82,14 +64,14 @@ const Search = () => {
             <input
               type="date"
               name="date"
-              value={search.date}
-              onChange={handleSearch}
+              value={state.search.date}
+              onChange={(e) => setSearch({ [e.target.name]: e.target.value })}
               className="flex-1 h-full border-none bg-transparent focus:outline-none"
             />
           </div>
 
           <button
-            onClick={handleClearFilter}
+            onClick={() => resetFilters()}
             className="w-fit h-full px-5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-base font-medium text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer"
           >
             <IoMdCloseCircle className="w-6 h-6" /> Clear Filter

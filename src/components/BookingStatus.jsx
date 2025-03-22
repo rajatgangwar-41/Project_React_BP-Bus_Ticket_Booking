@@ -1,29 +1,27 @@
-import { useContext } from "react"
 import { useFormContext } from "react-hook-form"
 import { FaArrowRightLong } from "react-icons/fa6"
-import { useNavigate } from "react-router-dom"
-import { Context } from "../App"
+import { useNavigate, useParams } from "react-router-dom"
+import { ApplyCoupon } from "../components/"
+import { useFilter } from "../hooks/useFilter"
 
 const BookingStatus = () => {
   const { handleSubmit } = useFormContext()
-  const { userTravelData, setUserTravelData } = useContext(Context)
+  const { state, setUserTravelData } = useFilter()
+  const { ticketId } = useParams()
   const navigate = useNavigate()
 
   const onSubmit = (data) => {
-    console.log("Booking Data:", { ...data })
     alert("Booking Successful!")
-    setUserTravelData((prev) => {
-      return {
-        ...prev,
-        userName: data.fullName,
-        userEmail: data.email,
-        userNumber: data.phone,
-        pickUpStation: data.pickupStation,
-        dropOffStation: data.dropOffStation,
-        billNumber: Math.floor(1000 + Math.random() * 9000),
-      }
+    setUserTravelData({
+      userName: data.fullName,
+      userEmail: data.email,
+      userNumber: data.phone,
+      pickUpStation: data.pickupStation,
+      dropOffStation: data.dropOffStation,
+      billNumber: Math.floor(1000 + Math.random() * 9000),
+      ticketId,
     })
-    navigate("/ticket-payment")
+    navigate(`/ticket-invoice/${ticketId}`)
   }
 
   return (
@@ -50,16 +48,17 @@ const BookingStatus = () => {
               </div>
               <div className="w-full flex items-center justify-between gap-x-4 ">
                 <h1 className="text-sm text-neutral-600 font-normal">
-                  {userTravelData?.routeFrom}{" "}
+                  {state?.userTravelData?.bus?.routeFrom}
+                  {"s "}
                   <span className="font-medium">
-                    ({userTravelData?.departureTime})
+                    ({state?.userTravelData?.bus?.departureTime})
                   </span>
                 </h1>
                 <div className="flex-1 border-dashed border border-neutral-300"></div>
                 <h1 className="text-sm text-neutral-600 font-normal">
-                  {userTravelData?.routeTo}{" "}
+                  {state?.userTravelData?.bus?.routeTo}{" "}
                   <span className="font-medium">
-                    ({userTravelData?.arrivalTime})
+                    ({state?.userTravelData?.bus?.arrivalTime})
                   </span>
                 </h1>
               </div>
@@ -68,7 +67,7 @@ const BookingStatus = () => {
                   Bus No:
                 </h1>
                 <h1 className="text-sm text-neutral-700 font-medium">
-                  ({userTravelData?.busNumber})
+                  ({state?.userTravelData?.bus?.busNumber})
                 </h1>
               </div>
             </div>
@@ -78,7 +77,7 @@ const BookingStatus = () => {
               Your Seats
             </h1>
             <ul className="w-full flex items-center gap-x-3">
-              {userTravelData?.selectedSeats?.map((seatId) => {
+              {state?.userTravelData?.selectedSeats?.map((seatId) => {
                 return (
                   <li
                     key={seatId}
@@ -90,24 +89,60 @@ const BookingStatus = () => {
               })}
             </ul>
           </div>
-          <div className="space-y-2 w-full">
-            {/* <h1 className="text-base text-neutral-700 font-medium">
-              Total Fair Price
-            </h1> */}
-            <div className="flex items-center justify-between gap-x-4">
-              <div className="flex gap-y-0.5 flex-col">
-                <h3 className="text-base text-neutral-600 font-medium">
-                  Total Price:
-                </h3>
-                <span className="text-xs text-neutral-500 font-normal">
-                  (Including All Taxes)
-                </span>
+          <div className="space-y-2 flex items-center justify-between">
+            <h1 className="text-base text-neutral-700 font-medium">
+              Have a Discount Coupon?
+            </h1>
+            <ApplyCoupon />
+          </div>
+          <div className="w-full">
+            <div className="w-full">
+              <div className="flex items-center justify-between gap-x-4">
+                <div className="flex gap-y-0.5 flex-col">
+                  <h3 className="text-base text-neutral-600 font-medium">
+                    Original Price:
+                  </h3>
+                </div>
+                {/* Calculate the total price */}
+                <p className="text-base text-neutral-600 font-semibold">
+                  {state?.userTravelData?.originalPrice}
+                </p>
               </div>
-              {/* Calculate the total price */}
-              <p className="text-base text-neutral-600 font-semibold">
-                Rs.
-                {userTravelData?.selectedSeats.length * userTravelData?.price}
-              </p>
+            </div>
+            <div className="w-full">
+              <div className="flex items-center justify-between gap-x-4">
+                <div className="flex gap-y-0.5 flex-col">
+                  <h3 className="text-base text-neutral-600 font-medium">
+                    Discount:{" "}
+                    <span className="text-base">
+                      {state?.userTravelData?.discountInPercent !== undefined &&
+                        state?.userTravelData?.discountInPercent + "%"}
+                    </span>
+                  </h3>
+                </div>
+                {/* Calculate the total price */}
+                <p className="text-base text-neutral-600 font-semibold">
+                  - {state?.userTravelData?.discountInRupees || 0}
+                </p>
+              </div>
+            </div>
+            <div className="w-full">
+              <div className="flex items-center justify-between gap-x-4">
+                <div className="flex gap-y-0.5 flex-col">
+                  <h3 className="text-base text-neutral-600 font-medium">
+                    Total Price:
+                  </h3>
+                  <span className="text-xs text-neutral-500 font-normal">
+                    (Including All Taxes)
+                  </span>
+                </div>
+                {/* Calculate the total price */}
+                <p className="text-base text-neutral-600 font-semibold">
+                  Rs.{" "}
+                  {state?.userTravelData?.discountedPrice ||
+                    state?.userTravelData?.originalPrice}
+                </p>
+              </div>
             </div>
           </div>
         </div>

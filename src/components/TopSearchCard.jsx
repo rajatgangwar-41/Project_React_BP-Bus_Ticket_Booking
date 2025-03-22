@@ -1,12 +1,11 @@
-import React, { useContext } from "react"
 import { FaWifi } from "react-icons/fa"
 import { GiCharging, GiWaterBottle } from "react-icons/gi"
 import { IoMdTv } from "react-icons/io"
 import { Link } from "react-router-dom"
-import { Context } from "../App"
+import { useFilter } from "../hooks/useFilter"
 
 const TopSearchCard = ({ bus }) => {
-  const { setUserTravelData } = useContext(Context)
+  const { setUserTravelData } = useFilter()
   return (
     <div className="w-full rounded-xl p-5 border-2 border-neutral-300 space-y-10">
       <div className="space-y-3.5 w-full">
@@ -62,9 +61,9 @@ const TopSearchCard = ({ bus }) => {
           Rs. {bus.price}
         </h1>
         <Link
-          to="/ticket-book"
+          to={`/ticket-book/${bus.id}`}
           state={bus}
-          onClick={() => setUserTravelData(bus)}
+          onClick={() => setUserTravelData("busDetail", bus)}
           className="w-fit px-5 py-1.5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-sm font-normal text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer"
         >
           Book Seat

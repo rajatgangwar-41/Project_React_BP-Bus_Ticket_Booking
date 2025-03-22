@@ -1,17 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { useContext } from "react"
 import { FaBus, FaCalendarWeek, FaStar, FaWifi } from "react-icons/fa6"
 import { MdOutlineChair } from "react-icons/md"
 import { RiVipFill } from "react-icons/ri"
 import { TbAirConditioning } from "react-icons/tb"
 import { Link } from "react-router-dom"
-import { Context } from "../App"
+import { motion } from "motion/react"
 
 const TicketCard = ({ icon: Icon, bus }) => {
-  const { setUserTravelData } = useContext(Context)
-
   return (
-    <div className="w-full rounded-xl p-5 border-2 border-neutral-300 space-y-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className="w-full rounded-xl p-5 border-2 border-neutral-300 space-y-4"
+    >
       <div className="space-y-5 w-full border-b border-neutral-300/60 pb-5">
         {/* Routes */}
         <div className="space-y-5">
@@ -20,7 +23,7 @@ const TicketCard = ({ icon: Icon, bus }) => {
             <div className="min-w-65 flex items-center gap-x-2">
               <FaBus className="h-5 w-5 text-primary" />
               <p className="text-lg text-neutral-700 font-semibold">
-                {bus.transportName}
+                {bus.busCompany}
               </p>
             </div>
             <div className="flex items-center gap-x-3 w-fit rounded-full px-1.5 py-0.5">
@@ -49,7 +52,7 @@ const TicketCard = ({ icon: Icon, bus }) => {
               )}
               {bus.amenities.some((a) => a.toLowerCase().includes("wifi")) && (
                 <div className="flex items-center gap-x-1 bg-neutral-200/65 w-fit rounded-full px-1.5 py-0.5">
-                  <FaWifi className="w-4 h-4 text-primary" />
+                  <FaWifi className="w-4 h-4 text-green-600" />
                   <p className="text-xs text-neutral-600 font-normal">Wifi</p>
                 </div>
               )}
@@ -115,15 +118,14 @@ const TicketCard = ({ icon: Icon, bus }) => {
         </h1>
 
         <Link
-          to="/ticket-book"
+          to={`/ticket-book/${bus.id}`}
           state={bus}
-          onClick={() => setUserTravelData(bus)}
           className="w-fit px-5 py-1.5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-sm font-normal text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer"
         >
           Book Seat
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

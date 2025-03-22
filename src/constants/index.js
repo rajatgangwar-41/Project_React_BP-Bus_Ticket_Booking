@@ -4,6 +4,7 @@ import { amenitiesList } from "./busData"
 import servicePolicies from "./servicesPolicies"
 import paymentMethod from "./paymentMethod"
 import faqs from "./faqs"
+import socialMedia from "./social-media"
 
 export {
   discountData,
@@ -12,4 +13,5 @@ export {
   amenitiesList,
   paymentMethod,
   faqs,
+  socialMedia,
 }

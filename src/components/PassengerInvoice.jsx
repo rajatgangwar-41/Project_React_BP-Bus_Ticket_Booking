@@ -1,11 +1,10 @@
-import React, { useContext } from "react"
 import { bus, qrCode } from "../assets"
 import { FaCircleCheck, FaPhone } from "react-icons/fa6"
 import { IoMdCloseCircle } from "react-icons/io"
-import { Context } from "../App"
+import { useFilter } from "../hooks/useFilter"
 
 const PassengerInvoice = () => {
-  const { userTravelData } = useContext(Context)
+  const { state } = useFilter()
 
   return (
     <div className="w-full col-span-4 rounded-3xl relative">
@@ -18,13 +17,13 @@ const PassengerInvoice = () => {
             className="w-auto h-12 object-cover object-center"
           />
           <h1 className="text-xl text-neutral-50 font-bold uppercase tracking-wider pt-1">
-            {userTravelData?.transportName}
+            {state?.userTravelData?.bus?.busCompany}
           </h1>
         </div>
         <div className="flex items-center gap-x-2">
           <p className="text-xl text-neutral-50 font-bold">
             <span className="text-lg">(Bus No.)</span>{" "}
-            {userTravelData?.busNumber}
+            {state?.userTravelData?.bus?.busNumber}
           </p>
         </div>
       </div>
@@ -33,38 +32,49 @@ const PassengerInvoice = () => {
           {/* Bill No, per sea and date */}
           <div className="w-full flex items-center justify-between border-dashed border-b-2 border-neutral-200 pb-3">
             <p className="text-base text-neutral-500 font-normal">
-              Bill No. {userTravelData?.billNumber}
+              Bill No. {state?.userTravelData?.billNumber}
             </p>
             <p className="text-base text-neutral-500 font-normal">
-              Rs. {userTravelData?.price}
+              Rs.{" "}
+              {(state?.userTravelData?.discountedPrice !== undefined &&
+                ((100 - state?.userTravelData?.discountInPercent) *
+                  state?.userTravelData?.bus?.price) /
+                  100) ||
+                state?.userTravelData?.bus?.price}
               <span className="text-xs">/seat</span>
             </p>
             <p className="text-base text-neutral-500 font-normal">
-              Date: {userTravelData?.date}
+              Date: {state?.userTravelData?.bus?.date}
             </p>
           </div>
           {/* Passenger Detail */}
           <div className="w-full flex items-center justify-between">
             <div className="space-y-1.5">
               <p className="text-base text-neutral-500 font-normal">
-                Name of Customer:
-                <span className="font-medium"> {userTravelData?.userName}</span>
+                Name:
+                <span className="font-medium">
+                  {" "}
+                  {state?.userTravelData?.userName}
+                </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
                 From:
                 <span className="font-medium">
                   {" "}
-                  {userTravelData?.routeFrom}
+                  {state?.userTravelData?.bus?.routeFrom}
                 </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
                 To:
-                <span className="font-medium"> {userTravelData?.routeTo}</span>
+                <span className="font-medium">
+                  {" "}
+                  {state?.userTravelData?.bus?.routeTo}
+                </span>
               </p>
               <p className="w-full flex text-base text-neutral-500 font-normal">
                 Total Seats Booked:
                 <span className="font-medium flex pl-2 gap-x-2">
-                  {userTravelData?.selectedSeats?.map((seatId) => {
+                  {state?.userTravelData?.selectedSeats?.map((seatId) => {
                     return (
                       <li
                         key={seatId}
@@ -80,21 +90,21 @@ const PassengerInvoice = () => {
                 Total Passengers:
                 <span className="font-medium">
                   {" "}
-                  {userTravelData?.selectedSeats?.length}
+                  {state?.userTravelData?.selectedSeats?.length}
                 </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
                 Pickup Station:
                 <span className="font-medium">
                   {" "}
-                  {userTravelData?.pickUpStation}
+                  {state?.userTravelData?.pickUpStation}
                 </span>
               </p>
               <p className="text-base text-neutral-500 font-normal">
                 Drop Station:
                 <span className="font-medium">
                   {" "}
-                  {userTravelData?.dropOffStation}
+                  {state?.userTravelData?.dropOffStation}
                 </span>
               </p>
             </div>
@@ -105,8 +115,8 @@ const PassengerInvoice = () => {
                 </p>
                 <h1 className="text-xl text-neutral-600 font-bold">
                   Rs.{" "}
-                  {userTravelData?.selectedSeats?.length *
-                    userTravelData?.price}
+                  {state?.userTravelData?.discountedPrice ||
+                    state?.userTravelData?.originalPrice}
                 </h1>
               </div>
               <div className="w-fit px-3 py-1 border rounded-full bg-green-500/5 flex items-center justify-center gap-2 border-green-600 text-green-600 text-sm font-medium ">
@@ -122,19 +132,21 @@ const PassengerInvoice = () => {
           {/* Route Detail */}
           <div className="w-full flex items-center justify-between border-dashed border-t-2 border-neutral-200 pt-3">
             <p className="text-base text-neutral-600 font-normal">
-              {userTravelData?.routeFrom}{" "}
-              <span className="text-neutral-400 px-2"> ------ </span>
-              {userTravelData?.routeTo}
+              {state?.userTravelData?.bus?.routeFrom}{" "}
+              <span className="text-neutral-400 px-2"> ------&gt;</span>
+              {state?.userTravelData?.bus?.routeTo}
             </p>
             <p className="text-base text-neutral-600 font-normal">
               Departure Time:{" "}
               <span className="font-medium">
-                {userTravelData?.departureTime}
+                {state?.userTravelData?.bus?.departureTime}
               </span>
             </p>
             <p className="text-base text-neutral-600 font-normal">
               Arrival Time:{" "}
-              <span className="font-medium">{userTravelData?.arrivalTime}</span>
+              <span className="font-medium">
+                {state?.userTravelData?.bus?.arrivalTime}
+              </span>
             </p>
           </div>
         </div>
@@ -155,10 +167,10 @@ const PassengerInvoice = () => {
         <div className="flex items-center gap-x-2">
           <FaPhone className="w-3 h-3 text-neutral-100" />
           <p className="text-sm text-neutral-100 font-light">
-            {userTravelData?.customerSupportContact[0]},
+            {state?.userTravelData?.bus?.customerSupportContact[0]},
           </p>
           <p className="text-sm text-neutral-100 font-light">
-            {userTravelData?.customerSupportContact[1]}
+            {state?.userTravelData?.bus?.customerSupportContact[1]}
           </p>
         </div>
       </div>

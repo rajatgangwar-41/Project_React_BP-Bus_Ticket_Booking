@@ -1,72 +1,119 @@
-import React, { useState } from "react"
+/* eslint-disable no-unused-vars */
+import { useRef } from "react"
 import { PriceRangeSlider } from "../components/"
-import { busData } from "../constants"
+import { motion, useInView } from "motion/react"
+import { useFilter } from "../hooks/useFilter"
 
 const Filter = ({ className }) => {
-  const [_, setRangeValues] = useState({ min: 0, max: 100 })
+  const {
+    state,
+    setBusTypeList,
+    setBusCompanyList,
+    setAmenitiesList,
+    applyFilter,
+  } = useFilter()
 
-  const handleRangeChange = (values) => {
-    setRangeValues({ values })
+  const handleFilter = (e, value) => {
+    switch (e.target.name) {
+      case "BUS_TYPE":
+        setBusTypeList(value)
+        break
+
+      case "BUS_COMPANY":
+        setBusCompanyList(value)
+        break
+
+      case "AMENITIES":
+        setAmenitiesList(value)
+        break
+
+      default:
+        break
+    }
+
+    applyFilter()
   }
 
   return (
     <div className={`w-full ${className}`}>
-      <h1 className="text-x text-neutral-700 font-semibold">Apply Filters</h1>
+      <Reveal>
+        <h1 className="text-xl text-neutral-700 font-semibold">
+          Apply Filters
+        </h1>
+      </Reveal>
+
       {/* Price Filter */}
-      <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-1">
-        <h1 className="text-x text-neutral-600 font-medium">Apply Filters</h1>
-        <PriceRangeSlider min={500} max={2000} onChange={handleRangeChange} />
-      </div>
+      <Reveal>
+        <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-1">
+          <h1 className="text-lg text-neutral-600 font-medium">Price Range</h1>
+          <PriceRangeSlider
+            min={state.priceRange.minPrice}
+            max={state.priceRange.maxPrice}
+            onChange={handleFilter}
+          />
+        </div>
+      </Reveal>
+
       {/* Bus Type Filter */}
-      <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
-        <h1 className="text-x text-neutral-600 font-medium">Bus Types</h1>
-        <ul className="space-y-2.5">
-          {Object.entries(
-            busData.reduce((acc, bus) => {
-              acc[bus.busType] = (acc[bus.busType] || 0) + 1
-              return acc
-            }, {})
-          )
-            .map(([type, count]) => ({ type, count }))
-            .map((bus, index) => {
-              return (
+      <Reveal>
+        <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
+          <h1 className="text-lg text-neutral-600 font-medium">Bus Types</h1>
+          <ul className="space-y-2.5">
+            {Object.entries(
+              state.originalData.reduce((acc, bus) => {
+                acc[bus.busType] = (acc[bus.busType] || 0) + 1
+                return acc
+              }, {})
+            )
+              .map(([type, count]) => ({ type, count }))
+              .map((bus, index) => (
                 <li key={index} className="w-full flex items-center gap-2">
                   <input
                     type="checkbox"
+                    name="BUS_TYPE"
                     id={bus.type}
+                    checked={state.busTypeList.includes(bus.type)}
+                    onChange={(e) => handleFilter(e, bus.type)}
                     className="h-3 w-3 border border-neutral-300 text-neutral-300 cursor-pointer"
                   />
                   <label
-                    htmlFor="ac"
+                    htmlFor={bus.type}
                     className="text-sm text-neutral-600 font-normal cursor-pointer"
                   >
                     {bus.type}
-                    <span className="text-xs text-neutral-6001">
+                    <span className="text-xs text-neutral-600">
+                      {" "}
                       ({bus.count})
                     </span>
                   </label>
                 </li>
-              )
-            })}
-        </ul>
-      </div>
+              ))}
+          </ul>
+        </div>
+      </Reveal>
+
       {/* Bus Company Filter */}
-      <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
-        <h1 className="text-x text-neutral-600 font-medium">Bus Companies</h1>
-        <ul className="space-y-2.5">
-          {Object.entries(
-            busData.reduce((acc, bus) => {
-              acc[bus.transportName] = (acc[bus.transportName] || 0) + 1
-              return acc
-            }, {})
-          )
-            .map(([company, count]) => ({ company, count }))
-            .map((bus, index) => {
-              return (
+      <Reveal>
+        <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
+          <h1 className="text-lg text-neutral-600 font-medium">
+            Bus Companies
+          </h1>
+          <ul className="space-y-2.5">
+            {Object.entries(
+              state.originalData.reduce((acc, bus) => {
+                acc[bus.busCompany] = (acc[bus.busCompany] || 0) + 1
+                return acc
+              }, {})
+            )
+              .map(([company, count]) => ({ company, count }))
+              .map((bus, index) => (
                 <li key={index} className="w-full flex items-center gap-2">
                   <input
                     type="checkbox"
+                    name="BUS_COMPANY"
                     id={bus.company}
+                    checked={state.busCompanyList.includes(bus.company)}
+                    onChange={(e) => handleFilter(e, bus.company)}
                     className="h-3 w-3 border border-neutral-300 text-neutral-300 cursor-pointer"
                   />
                   <label
@@ -74,41 +121,72 @@ const Filter = ({ className }) => {
                     className="text-sm text-neutral-600 font-normal cursor-pointer"
                   >
                     {bus.company}
-                    <span className="text-xs text-neutral-6001">
+                    <span className="text-xs text-neutral-600">
+                      {" "}
                       ({bus.count})
                     </span>
                   </label>
                 </li>
-              )
-            })}
-        </ul>
-      </div>
+              ))}
+          </ul>
+        </div>
+      </Reveal>
+
       {/* Amenities Filter */}
-      <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
-        <h1 className="text-x text-neutral-600 font-medium">Bus Amenities</h1>
-        <ul className="space-y-2.5">
-          {[...new Set(busData.flatMap((bus) => bus.amenities))].map(
-            (amenity, index) => {
-              return (
-                <li key={index} className="w-full flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id={amenity}
-                    className="h-3 w-3 border border-neutral-300 text-neutral-300 cursor-pointer"
-                  />
-                  <label
-                    htmlFor={amenity}
-                    className="text-sm text-neutral-600 font-normal cursor-pointer"
-                  >
-                    {amenity}
-                  </label>
-                </li>
-              )
-            }
-          )}
-        </ul>
-      </div>
+      <Reveal>
+        <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-3">
+          <h1 className="text-lg text-neutral-600 font-medium">
+            Bus Amenities
+          </h1>
+          <ul className="space-y-2.5">
+            {[
+              ...new Set(state.originalData.flatMap((bus) => bus.amenities)),
+            ].map((amenity, index) => (
+              <li key={index} className="w-full flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="AMENITIES"
+                  id={amenity}
+                  checked={state.amenitiesList.includes(amenity)}
+                  onChange={(e) => handleFilter(e, amenity)}
+                  className="h-3 w-3 border border-neutral-300 text-neutral-300 cursor-pointer"
+                />
+                <label
+                  htmlFor={amenity}
+                  className="text-sm text-neutral-600 font-normal cursor-pointer"
+                >
+                  {amenity}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
     </div>
+  )
+}
+
+// Scroll Reveal Wrapper Component
+const Reveal = ({ children }) => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.6, ease: "easeOut" },
+        },
+      }}
+    >
+      {children}
+    </motion.div>
   )
 }
 

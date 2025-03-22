@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState, useRef } from "react"
+import { useCallback, useEffect, useState, useRef } from "react"
+import { useFilter } from "../hooks/useFilter"
 
 const valueCSS = {
   display: "flex",
@@ -25,6 +26,7 @@ const PriceRangeSlider = ({
   const minValRef = useRef(min)
   const maxValRef = useRef(max)
   const range = useRef(null)
+  const { setPriceRange, applyFilter } = useFilter()
 
   // convert to percentage
   const getPercent = useCallback(
@@ -53,14 +55,16 @@ const PriceRangeSlider = ({
     }
   }, [maxVal, getPercent])
 
-  // Get min and max values when their state changes
+  // Handle slider value changes
   useEffect(() => {
-    if (minVal != minValRef.current || maxVal != maxValRef.current) {
-      onChange({ min: minVal, max: maxVal })
+    if (minVal !== minValRef.current || maxVal !== maxValRef.current) {
+      // onChange("PRICE", { minPrice: minVal, maxPrice: maxVal }) // Notify parent
+      setPriceRange({ minPrice: minVal, maxPrice: maxVal })
+      applyFilter()
       minValRef.current = minVal
       maxValRef.current = maxVal
     }
-  }, [minVal, maxVal, onChange])
+  }, [minVal, maxVal, setPriceRange, applyFilter])
 
   return (
     <div className="w-full flex items-center justify-center flex-col mt-3 space-y-8">

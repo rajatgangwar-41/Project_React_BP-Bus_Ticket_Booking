@@ -34,15 +34,15 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "/ticket-book",
+        path: "/ticket-book/:busId",
         element: <Detail />,
       },
       {
-        path: "/ticket-checkout",
+        path: "/ticket-checkout/:ticketId",
         element: <Checkout />,
       },
       {
-        path: "/ticket-payment",
+        path: "/ticket-invoice/:ticketId",
         element: <Invoice />,
       },
     ],

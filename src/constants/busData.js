@@ -16,12 +16,19 @@ export const amenitiesList = [
 const generateBusData = () => {
   const cities = [
     ["Delhi", "Jaipur"],
+    ["Delhi", "Mumbai"],
+    ["Delhi", "Varanasi"],
+    ["Delhi", "Prayagraj"],
+    ["Delhi", "Ahemdabad"],
+    ["Mumbai", "Goa"],
+    ["Mumbai", "Nagpur"],
     ["Mumbai", "Pune"],
     ["Bangalore", "Hyderabad"],
     ["Chennai", "Coimbatore"],
     ["Kolkata", "Bhubaneswar"],
     ["Ahmedabad", "Surat"],
     ["Lucknow", "Kanpur"],
+    ["Prayagraj", "Kanpur"],
     ["Indore", "Bhopal"],
     ["Hyderabad", "Vijayawada"],
     ["Patna", "Ranchi"],
@@ -216,6 +223,7 @@ const generateBusData = () => {
     return Array.from({ length: 50 }, (_, index) => {
       const [from, to] = cities[Math.floor(Math.random() * cities.length)]
       return {
+        id: Math.floor(1000 + Math.random() * 9000),
         routeFrom: from,
         routeTo: to,
         description: busDescriptions[index % busDescriptions.length],
@@ -228,7 +236,7 @@ const generateBusData = () => {
         price: Math.floor(Math.random() * 16) * 100 + 500, // Random price between 500 - 1000
         busType: busTypes[Math.floor(Math.random() * busTypes.length)],
         busNumber: `DL${String(index + 1).padStart(2, "0")}B${1000 + index}`,
-        transportName:
+        busCompany:
           transportNames[Math.floor(Math.random() * transportNames.length)],
         duration: `${Math.floor(Math.random() * 5) + 4}h ${
           Math.random() > 0.5 ? "30m" : "0m"
