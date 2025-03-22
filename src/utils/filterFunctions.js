@@ -1,4 +1,4 @@
-// Filter by Price
+// Filter by Search
 export const filterBySearch = (data, search) => {
   return search.routeFrom === "" && search.routeTo === "" && search.date === ""
     ? data
@@ -15,13 +15,11 @@ export const filterBySearch = (data, search) => {
 }
 
 // Filter by Price
-export const filterByPrice = (data, minPrice, maxPrice) => {
-  // return data.filter((bus) => bus.price >= minPrice && bus.price <= maxPrice)
-  return new Promise((resolve) => {
-    resolve(
-      data.filter((bus) => bus.price >= minPrice && bus.price <= maxPrice)
-    )
-  })
+export const filterByPrice = (data, priceRange) => {
+  return data.filter(
+    (bus) =>
+      bus.price >= priceRange.minPrice && bus.price <= priceRange.maxPrice
+  )
 }
 
 // Filter by Bus Type

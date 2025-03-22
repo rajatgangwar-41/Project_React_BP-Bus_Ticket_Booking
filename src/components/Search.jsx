@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "motion/react"
-import { useEffect } from "react"
 import { TbArrowsExchange } from "react-icons/tb"
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
@@ -15,10 +14,6 @@ const Search = () => {
     applyFilter()
     navigate("/tickets")
   }
-
-  // useEffect(() => {
-  //   applyFilter()
-  // }, [applyFilter])
 
   return (
     <motion.div

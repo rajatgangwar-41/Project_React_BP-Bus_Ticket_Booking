@@ -1,18 +1,13 @@
 import {
-  filterByPrice,
   filterByBusType,
   filterByBusCompany,
   filterByAmenities,
   filterBySearch,
+  filterByPrice,
 } from "../utils/filterFunctions"
-import { debounce } from "lodash"
 
-const INITIAL_MIN_VALUE = 500
-const INITIAL_MAX_VALUE = 2000
-
-const debouncedFilterByPrice = debounce((data, minPrice, maxPrice) => {
-  return filterByPrice(data, minPrice, maxPrice)
-}, 300) // Adjust debounce delay as needed
+export const INITIAL_MIN_VALUE = 500
+export const INITIAL_MAX_VALUE = 2000
 
 export const initialState = {
   originalData: null, // Keep original data safe
@@ -38,6 +33,12 @@ export const filterReducer = (state, action) => {
       return {
         ...state,
         originalData: action.payload,
+        filteredData: action.payload,
+      }
+
+    case "SET_FILTERED_DATA":
+      return {
+        ...state,
         filteredData: action.payload,
       }
 
@@ -92,27 +93,12 @@ export const filterReducer = (state, action) => {
       }
 
     case "APPLY_FILTER": {
-      let updatedData = state.originalData
+      let updatedData = [...state.originalData]
       updatedData = filterBySearch(updatedData, state.search)
-      // updatedData = filterByPrice(
-      //   updatedData,
-      //   state.priceRange.minPrice,
-      //   state.priceRange.maxPrice
-      // )
       updatedData = filterByBusType(updatedData, state.busTypeList)
       updatedData = filterByBusCompany(updatedData, state.busCompanyList)
       updatedData = filterByAmenities(updatedData, state.amenitiesList)
-      // console.log(updatedData)
-      // Apply debounced filter for price
-      // debouncedFilterByPrice(
-      //   updatedData,
-      //   state.priceRange.minPrice,
-      //   state.priceRange.maxPrice
-      // ).then((filteredData) => {
-      //   return { ...state, filteredData } // Update state after debounce
-      // })
-
-      // return { ...state } // Keep state unchanged while debounce runs
+      updatedData = filterByPrice(updatedData, state.priceRange)
 
       return { ...state, filteredData: updatedData }
     }
@@ -120,6 +106,7 @@ export const filterReducer = (state, action) => {
     case "RESET":
       return {
         ...state,
+        filteredData: [...state.originalData],
         search: {
           routeFrom: "",
           routeTo: "",
@@ -132,7 +119,6 @@ export const filterReducer = (state, action) => {
         busTypeList: [],
         busCompanyList: [],
         amenitiesList: [],
-        filteredData: state.originalData,
       }
 
     default:

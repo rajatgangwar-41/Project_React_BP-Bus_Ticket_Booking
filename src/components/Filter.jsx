@@ -3,35 +3,26 @@ import { useRef } from "react"
 import { PriceRangeSlider } from "../components/"
 import { motion, useInView } from "motion/react"
 import { useFilter } from "../hooks/useFilter"
+import { INITIAL_MAX_VALUE, INITIAL_MIN_VALUE } from "../reducers/reducer"
 
 const Filter = ({ className }) => {
-  const {
-    state,
-    setBusTypeList,
-    setBusCompanyList,
-    setAmenitiesList,
-    applyFilter,
-  } = useFilter()
+  const { state, setBusTypeList, setBusCompanyList, setAmenitiesList } =
+    useFilter()
 
   const handleFilter = (e, value) => {
     switch (e.target.name) {
       case "BUS_TYPE":
-        setBusTypeList(value)
-        break
+        return setBusTypeList(value)
 
       case "BUS_COMPANY":
-        setBusCompanyList(value)
-        break
+        return setBusCompanyList(value)
 
       case "AMENITIES":
-        setAmenitiesList(value)
-        break
+        return setAmenitiesList(value)
 
       default:
-        break
+        return
     }
-
-    applyFilter()
   }
 
   return (
@@ -46,11 +37,7 @@ const Filter = ({ className }) => {
       <Reveal>
         <div className="w-full border border-neutral-300 rounded-xl p-4 space-y-1">
           <h1 className="text-lg text-neutral-600 font-medium">Price Range</h1>
-          <PriceRangeSlider
-            min={state.priceRange.minPrice}
-            max={state.priceRange.maxPrice}
-            onChange={handleFilter}
-          />
+          <PriceRangeSlider min={INITIAL_MIN_VALUE} max={INITIAL_MAX_VALUE} />
         </div>
       </Reveal>
 

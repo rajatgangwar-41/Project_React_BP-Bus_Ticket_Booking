@@ -8,6 +8,10 @@ const useFilter = () => {
     dispatch({ type: "SET_ORIGINAL_DATA", payload: data })
   }
 
+  const setFilteredData = (data) => {
+    dispatch({ type: "SET_FILTERED_DATA", payload: data })
+  }
+
   const setUserTravelData = (data) => {
     dispatch({ type: "SET_USER_TRAVEL_DATA", payload: data })
   }
@@ -43,6 +47,7 @@ const useFilter = () => {
   return {
     state,
     setOriginalData,
+    setFilteredData,
     setUserTravelData,
     setSearch,
     setPriceRange,

@@ -15,7 +15,6 @@ const PriceRangeSlider = ({
   min,
   max,
   trackColor = "#cecece",
-  onChange,
   rangeColor = "#ff0303",
   valueStyle = valueCSS,
   width = "250px",
@@ -26,7 +25,7 @@ const PriceRangeSlider = ({
   const minValRef = useRef(min)
   const maxValRef = useRef(max)
   const range = useRef(null)
-  const { setPriceRange, applyFilter } = useFilter()
+  const { state, setPriceRange } = useFilter()
 
   // convert to percentage
   const getPercent = useCallback(
@@ -58,13 +57,21 @@ const PriceRangeSlider = ({
   // Handle slider value changes
   useEffect(() => {
     if (minVal !== minValRef.current || maxVal !== maxValRef.current) {
-      // onChange("PRICE", { minPrice: minVal, maxPrice: maxVal }) // Notify parent
-      setPriceRange({ minPrice: minVal, maxPrice: maxVal })
-      applyFilter()
+      const timer = setTimeout(() => {
+        setPriceRange({ minPrice: minVal, maxPrice: maxVal })
+      })
       minValRef.current = minVal
       maxValRef.current = maxVal
+      return () => clearTimeout(timer)
     }
-  }, [minVal, maxVal, setPriceRange, applyFilter])
+  }, [minVal, maxVal, state.PriceRange, setPriceRange])
+
+  useEffect(() => {
+    setMinVal(state.priceRange.minPrice)
+    setMaxVal(state.priceRange.maxPrice)
+    minValRef.current = state.priceRange.minPrice
+    maxValRef.current = state.priceRange.maxPrice
+  }, [state.priceRange]) // Re-run when the price range in global state updates
 
   return (
     <div className="w-full flex items-center justify-center flex-col mt-3 space-y-8">
