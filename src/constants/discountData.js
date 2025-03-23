@@ -44,7 +44,7 @@ const discountData = [
     img_url: discount5,
   },
   {
-    title: "Study Hard, Save Big!",
+    title: "Study Hard And Save Big!",
     discount: "30%",
     coupon_code: "YEBHRJSUVO",
     last_date: "April 30, 2025",

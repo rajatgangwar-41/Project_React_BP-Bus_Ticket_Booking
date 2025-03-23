@@ -69,7 +69,7 @@ const SearchResult = () => {
 
       {state?.filteredData?.length === 0 && (
         <motion.div
-          className="w-full flex items-center justify-center"
+          className="w-full flex relative -top-20 items-center justify-center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}

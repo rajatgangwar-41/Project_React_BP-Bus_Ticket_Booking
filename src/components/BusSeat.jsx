@@ -61,15 +61,15 @@ const BusSeat = ({ bus }) => {
   }
 
   return (
-    <div className="w-full grid grid-cols-5 gap-10">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
       {/* Seat Layout */}
-      <div className="col-span-3 w-full items-center justify-center shadow-sm rounded-xl p-4 border border-neutral-200">
+      <div className="col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-3 px-10 w-full self-start justify-self-center shadow-sm rounded-xl p-4 border border-neutral-200">
         <div className="w-full space-y-7">
           <p className="text-base text-neutral-600 font-medium text-center">
             Click on available seats to book your seat.
           </p>
           {/* Seat Layout */}
-          <div className="w-full flex items-stretch gap-x-1.5">
+          <div className="w-full hidden 2xl:flex items-stretch gap-x-1.5">
             <div className="w-10 h-fit">
               <GiSteeringWheel className="text-3xl mt-7 text-primary -rotate-90" />
             </div>
@@ -160,23 +160,124 @@ const BusSeat = ({ bus }) => {
               </div>
             </div>
           </div>
+          <div className="w-full 2xl:hidden border-t-2 border-dashed border-neutral-300 flex flex-col justify-center items-center gap-y-3">
+            <div className="w-10 ml-70 min-[400px]:ml-80 h-fit">
+              <GiSteeringWheel className="text-2xl min-[400px]:text-3xl mt-4 mb-2 text-primary" />
+            </div>
+            {/* Seat Rows */}
+            <div className="flex space-x-3">
+              <div className="w-full h-auto grid grid-rows-9 gap-y-2 justify-end">
+                {bus?.seats?.slice(0, 9).map((seat) => (
+                  <div
+                    key={seat.id}
+                    onClick={() => handleSeatClick(seat.id)}
+                    className="flex justify-between items-center gap-x-0"
+                  >
+                    <h6 className="text-sm min-[400px]:text-base text-neutral-600 font-bold">
+                      {seat.id}
+                    </h6>
+                    <MdOutlineChair
+                      className={`text-2xl min-[400px]:text-3xl ${getSeatName(
+                        seat
+                      )}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="w-full h-auto grid grid-rows-9 gap-y-2 justify-end">
+                {bus?.seats?.slice(9, 18).map((seat) => (
+                  <div
+                    key={seat.id}
+                    onClick={() => handleSeatClick(seat.id)}
+                    className="flex justify-between items-center gap-x-0"
+                  >
+                    <h6 className="text-sm min-[400px]:text-base text-neutral-600 font-bold">
+                      {seat.id}
+                    </h6>
+                    <MdOutlineChair
+                      className={`text-2xl min-[400px]:text-3xl ${getSeatName(
+                        seat
+                      )}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="w-full h-auto grid grid-rows-1 justify-end">
+                <div className="col-span-9"></div>
+                {bus?.seats?.slice(18, 19).map((seat) => (
+                  <div
+                    key={seat.id}
+                    onClick={() => handleSeatClick(seat.id)}
+                    className="flex justify-between items-center gap-x-1"
+                  >
+                    <h6 className="text-sm min-[400px]:text-base text-neutral-600 font-bold">
+                      {seat.id}
+                    </h6>
+                    <MdOutlineChair
+                      className={`text-2xl ${getSeatName(seat)}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="w-full h-auto grid grid-rows-9 gap-y-2 justify-end">
+                {bus?.seats?.slice(19, 28).map((seat) => (
+                  <div
+                    key={seat.id}
+                    onClick={() => handleSeatClick(seat.id)}
+                    className="flex justify-between items-center gap-x-0"
+                  >
+                    <h6 className="text-sm min-[400px]:text-base text-neutral-600 font-bold">
+                      {seat.id}
+                    </h6>
+                    <MdOutlineChair
+                      className={`text-2xl min-[400px]:text-3xl ${getSeatName(
+                        seat
+                      )}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="w-full h-auto grid grid-rows-9 gap-y-2 justify-end">
+                {bus?.seats?.slice(28, 37).map((seat) => (
+                  <div
+                    key={seat.id}
+                    onClick={() => handleSeatClick(seat.id)}
+                    className="flex justify-between items-center gap-x-0"
+                  >
+                    <h6 className="text-sm min-[400px]:text-base text-neutral-600 font-bold">
+                      {seat.id}
+                    </h6>
+                    <MdOutlineChair
+                      className={`text-2xl min-[400px]:text-3xl ${getSeatName(
+                        seat
+                      )}`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
           {/* Reservation Info */}
-          <div className="w-full flex items-center justify-center gap-6 border-t border-neutral-200 pt-5">
+          <div className="w-full flex flex-wrap items-center justify-center gap-6 border-t border-neutral-200 pt-5">
             <div className="flex items-center gap-x-2">
               <MdOutlineChair className="text-xl text-neutral-500 -rotate-90" />
-              <p className="text-sm text-neutral-500 font-medium1">Available</p>
+              <p className="text-base text-neutral-500 font-medium1">
+                Available
+              </p>
             </div>
             <div className="flex items-center gap-x-2">
               <MdOutlineChair className="text-xl text-primary -rotate-90" />
-              <p className="text-sm text-neutral-500 font-medium1">Booked</p>
+              <p className="text-base text-neutral-500 font-medium1">Booked</p>
             </div>
             <div className="flex items-center gap-x-2">
               <MdOutlineChair className="text-xl text-yellow-600 -rotate-90" />
-              <p className="text-sm text-neutral-500 font-medium1">Selected</p>
+              <p className="text-base text-neutral-500 font-medium1">
+                Selected
+              </p>
             </div>
             <div className="flex items-center gap-x-2">
               <RiMoneyRupeeCircleLine className="text-xl text-neutral-500" />
-              <p className="text-sm text-neutral-500 font-medium1">
+              <p className="text-base text-neutral-500 font-medium1">
                 Rs. {bus?.price}
               </p>
             </div>
@@ -184,7 +285,7 @@ const BusSeat = ({ bus }) => {
         </div>
       </div>
       {/* Seat Selection Action */}
-      <div className="col-span-2 w-full space-y-5 bg-neutral-50 rounded-xl px-6 py-4 border border-neutral-200 shadow-sm">
+      <div className="col-span-3 lg:col-span-2 xl:col-span-3 2xl:col-span-2 w-full  self-start justify-self-center  space-y-5 bg-neutral-50 rounded-xl px-6 py-4 border border-neutral-200 shadow-sm">
         <div className="w-full space-y-2">
           <div className="w-full flex items-center justify-between">
             <h1 className="text-lg text-neutral-600 font-medium">
@@ -236,7 +337,7 @@ const BusSeat = ({ bus }) => {
             </div>
           </div>
           {selectedSeats?.length > 0 ? (
-            <div className="w-full flex items-center gap-x-3">
+            <div className="w-full flex flex-wrap items-center gap-x-3">
               {selectedSeats?.map((seatId) => {
                 return (
                   <div

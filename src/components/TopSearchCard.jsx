@@ -20,7 +20,7 @@ const TopSearchCard = ({ bus }) => {
               {bus.routeFrom}
             </h1>
             <div className="flex-1 border-dashed border border-neutral-400 relative">
-              <p className="absolute w-fit px-3 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-50 rounded-full flex items-center justify-center text-sm text-neutral-500 font-normal border-dashed border border-neutral-400">
+              <p className="absolute w-fit min-w-20 px-3 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-50 rounded-full flex items-center justify-center text-sm text-neutral-500 font-normal border-dashed border border-neutral-400">
                 {bus.duration}
               </p>
             </div>

@@ -4,7 +4,6 @@ import { motion } from "motion/react"
 import AppLayout from "../layout/AppLayout"
 import { masterCard, creditCard, paypal } from "../assets"
 import { socialMedia } from "../constants"
-import { useEffect } from "react"
 import { useFilter } from "../hooks/useFilter"
 
 const fadeUpVariant = {
@@ -21,7 +20,7 @@ const staggerContainer = {
 }
 
 const Footer = () => {
-  const { setSearch, applyFilter } = useFilter()
+  const { state, setSearch, applyFilter } = useFilter()
   const navigate = useNavigate()
 
   const handleRouteClick = (from, to) => {
@@ -35,21 +34,24 @@ const Footer = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="w-full h-auto bg-neutral-950 py-10"
+      className="w-full h-auto bg-neutral-950 px-5 py-10"
     >
       <AppLayout className="space-y-10">
         {/* Footer Content */}
         <motion.div
           variants={staggerContainer}
-          className="w-full grid grid-cols-5 gap-8"
+          className="w-full grid grid-cols-2 md:grid-cols-5 gap-8"
         >
           {/* Logo & Description */}
           <motion.div
             variants={fadeUpVariant}
-            className="col-span-2 space-y-8 md:pr-10 pr-0"
+            className="col-span-1 md:col-span-2 space-y-8 md:pr-10 pr-0"
           >
             <div className="space-y-3">
-              <Link to="/" className="text-6xl text-primary font-bold">
+              <Link
+                to="/"
+                className="text-5xl md:text-6xl text-primary font-bold"
+              >
                 Bus
               </Link>
               <p className="w-8/10 pt-3 text-base text-neutral-500 font-normal text-justify">
@@ -62,7 +64,7 @@ const Footer = () => {
             {/* Social Links */}
             <motion.ul
               variants={staggerContainer}
-              className="w-full flex items-center gap-x-5"
+              className="w-full flex flex-wrap items-center gap-3 md:gap-5"
             >
               {socialMedia.map((ele) => (
                 <motion.li
@@ -70,19 +72,16 @@ const Footer = () => {
                   variants={fadeUpVariant}
                   onClick={() => window.open(ele.url, "_blank")}
                   whileHover={{ scale: 1.1 }}
-                  className="w-11 h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-300"
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-neutral-800/40 hover:bg-primary flex items-center justify-center cursor-pointer ease-in-out duration-300"
                 >
-                  <ele.icon className="w-5 h-5 text-neutral-50" />
+                  <ele.icon className="w-4 h-4 md:w-5 md:h-5 text-neutral-50" />
                 </motion.li>
               ))}
             </motion.ul>
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div
-            variants={fadeUpVariant}
-            className="col-span-1 space-y-5 mt-10"
-          >
+          <motion.div variants={fadeUpVariant} className="col-span-1 space-y-5">
             <h1 className="text-lg text-neutral-100 font-semibold">
               Quick Links
             </h1>
@@ -96,7 +95,7 @@ const Footer = () => {
                 <motion.div key={index} variants={fadeUpVariant}>
                   <Link
                     to="/"
-                    className="block text-base cursor-pointer text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                    className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
                   >
                     {item}
                   </Link>
@@ -106,10 +105,7 @@ const Footer = () => {
           </motion.div>
 
           {/* Top Reserved Routes */}
-          <motion.div
-            variants={fadeUpVariant}
-            className="col-span-1 space-y-5 mt-10"
-          >
+          <motion.div variants={fadeUpVariant} className="col-span-1 space-y-5">
             <h1 className="text-lg text-neutral-100 font-semibold">
               Top Reserved Routes
             </h1>
@@ -124,7 +120,7 @@ const Footer = () => {
                   key={index}
                   variants={fadeUpVariant}
                   onClick={() => handleRouteClick(route.from, route.to)}
-                  className="block cursor-pointer text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                  className="block text-base cursor-pointer text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
                 >
                   {route.from} - {route.to}
                 </motion.button>
@@ -133,10 +129,7 @@ const Footer = () => {
           </motion.div>
 
           {/* Support Links */}
-          <motion.div
-            variants={fadeUpVariant}
-            className="col-span-1 space-y-5 mt-10"
-          >
+          <motion.div variants={fadeUpVariant} className="col-span-1 space-y-5">
             <h1 className="text-lg text-neutral-100 font-semibold">
               Support Links
             </h1>
@@ -150,7 +143,7 @@ const Footer = () => {
                 <motion.div key={index} variants={fadeUpVariant}>
                   <Link
                     to="/contact"
-                    className="block text-base cursor-pointer text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
+                    className="block text-base text-neutral-500 hover:text-neutral-300 font-normal ease-in-out duration-300"
                   >
                     {item}
                   </Link>
@@ -169,17 +162,17 @@ const Footer = () => {
         {/* Copyright & Payment Methods */}
         <motion.div
           variants={fadeUpVariant}
-          className="w-full flex items-center justify-between"
+          className="w-full flex flex-wrap items-center justify-center md:justify-between gap-4"
         >
-          <p className="text-sm text-neutral-600 font-normal">
+          <p className="text-sm text-neutral-600 font-normal text-center md:text-left">
             Copyright &copy; 2025. All Rights Reserved
           </p>
-          <p className="text-sm text-neutral-600 font-normal pr-[5%]">
+          <p className="text-sm text-neutral-600 font-normal text-center md:text-left">
             Made with 💗 by Rajat Gangwar
           </p>
           <motion.div
             variants={staggerContainer}
-            className="flex items-center gap-x-2"
+            className="flex items-center gap-2"
           >
             {[masterCard, paypal, creditCard].map((image, index) => (
               <motion.img
@@ -188,7 +181,7 @@ const Footer = () => {
                 alt=""
                 variants={fadeUpVariant}
                 whileHover={{ scale: 1.1 }}
-                className="w-fit h-9 object-contain object-center cursor-pointer ease-in-out duration-300"
+                className="w-12 h-7 object-contain cursor-pointer ease-in-out duration-300"
               />
             ))}
           </motion.div>

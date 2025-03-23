@@ -33,11 +33,11 @@ const TopSearch = () => {
       {/* Tag */}
       <div className="w-full flex items-center justify-center text-center">
         <motion.h1
-          initial={{ opacity: 0, x: 800 }}
+          initial={{ opacity: 0, x: "100%" }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", duration: 1.2, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.5 }}
-          className="text-3xl font-bold text-neutral-800"
+          viewport={{ once: true }}
+          className="text-3xl md:text-4xl font-bold text-neutral-800"
         >
           Top Search <span className="text-primary">Routes</span>
         </motion.h1>
@@ -48,7 +48,7 @@ const TopSearch = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="w-full grid grid-cols-3 gap-5"
+        className="w-full mx-auto md:max-w-2xl lg:max-w-full @container grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5"
       >
         {state.originalData.slice(0, 6).map((bus, index) => {
           return (

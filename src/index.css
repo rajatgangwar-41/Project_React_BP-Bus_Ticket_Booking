@@ -10,6 +10,7 @@
 
 @theme {
   --color-primary: #f50a0a;
+  --breakpoint-xl: 82rem;
 }
 
 .slider {

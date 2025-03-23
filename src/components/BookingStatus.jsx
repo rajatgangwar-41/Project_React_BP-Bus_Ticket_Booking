@@ -76,7 +76,7 @@ const BookingStatus = () => {
             <h1 className="text-base text-neutral-700 font-medium">
               Your Seats
             </h1>
-            <ul className="w-full flex items-center gap-x-3">
+            <ul className="w-full flex flex-wrap justify-start items-center gap-x-3">
               {state?.userTravelData?.selectedSeats?.map((seatId) => {
                 return (
                   <li
@@ -89,8 +89,8 @@ const BookingStatus = () => {
               })}
             </ul>
           </div>
-          <div className="space-y-2 flex items-center justify-between">
-            <h1 className="text-base text-neutral-700 font-medium">
+          <div className="space-y-3 flex flex-col sm:flex-row lg:flex-col xl:max-2xl:flex-row items-start justify-between">
+            <h1 className="w-full text-base text-neutral-700 font-medium">
               Have a Discount Coupon?
             </h1>
             <ApplyCoupon />

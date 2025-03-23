@@ -31,6 +31,7 @@ const ContextProvider = ({ children }) => {
     }, 300),
     [
       state.originalData,
+      state.search,
       state.busTypeList,
       state.busCompanyList,
       state.amenitiesList,

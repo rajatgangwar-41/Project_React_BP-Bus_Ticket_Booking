@@ -32,7 +32,7 @@ const PaymentMethod = () => {
       <h6 className="text-sm text-neutral-500 font-medium">
         Select Payment Method
       </h6>
-      <div className="w-full grid grid-cols-2 gap-10">
+      <div className="w-full grid 2xl:grid-cols-2 gap-5">
         {paymentMethod.map((card, index) => {
           return (
             <PaymentCard

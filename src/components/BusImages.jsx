@@ -3,7 +3,7 @@ import { busImage1, busImage2, busImage3, busImage4 } from "../assets"
 
 const BusImages = () => {
   return (
-    <div className="w-full grid grid-cols-4 gap-5 items-center border-t border-neutral-300 pt-7 pb-2">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-center border-t border-neutral-300 pt-7 pb-2">
       <div className="w-full rounded-xl overflow-hidden">
         <img
           src={busImage1}

@@ -6,8 +6,8 @@ export const amenitiesList = [
   "Blankets",
   "Pillow",
   "Reading Light",
-  "USB Charging Port",
-  "CCTV Security",
+  "USB Port",
+  "CCTV",
   "Air Conditioning",
   "Reclining Seats",
   "Snacks",
@@ -47,17 +47,22 @@ const generateBusData = () => {
   const busTypes = [
     "Deluxe Bus",
     "Express Bus",
-    "Volvo Luxury",
+    "Luxury Bus",
     "Electric Bus",
-    "Mini Bus",
+    "Tourist Bus",
+    "Shuttle Bus",
   ]
   const transportNames = [
     "Rajdhani Travels",
-    "Sharma Bus Service",
+    "Sharma Travels",
     "VRL Travels",
-    "Orange Tours & Travels",
+    "Orange Travels",
     "SRS Travels",
     "Parveen Travels",
+    "Greenline Travels",
+    "KSRTC Travels",
+    "APSRTC Travels",
+    "TNSTC Travels",
   ]
 
   const restStops = [

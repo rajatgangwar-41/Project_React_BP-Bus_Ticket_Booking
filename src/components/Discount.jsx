@@ -40,11 +40,11 @@ const Discount = () => {
       {/* Tag */}
       <div className="w-full flex items-center justify-center text-center">
         <motion.h1
-          initial={{ opacity: 0, x: -800 }}
+          initial={{ opacity: 0, x: "-100%" }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", duration: 1.2, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="text-3xl font-bold text-neutral-800"
+          className="text-3xl md:text-4xl font-bold text-neutral-800"
         >
           Offers &<span className="text-primary"> Discounts Coupons</span>
         </motion.h1>
@@ -55,7 +55,7 @@ const Discount = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="w-full grid grid-cols-3 gap-10"
+        className="w-full mx-auto md:max-w-2xl lg:max-w-full @container grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5"
       >
         {discountData.map((discount, index) => {
           return (
@@ -74,5 +74,6 @@ const Discount = () => {
     </AppLayout>
   )
 }
+// grid-cols-[repeat(auto-fit,minmax(320px,1fr))]
 
 export default Discount

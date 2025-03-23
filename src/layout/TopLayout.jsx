@@ -20,7 +20,7 @@ const TopLayout = ({ bgImg, title, className }) => {
     >
       <AppLayout className="absolute top-0 left-0 w-full h-full pb-10 pt-[9ch] bg-gradient-to-b from-neutral-200/90 via-neutral-500/60 to-neutral-900/70 flex items-center justify-end flex-col gap-3">
         <motion.h1
-          className="text-5xl text-neutral-50 font-bold capitalize"
+          className="text-3xl md:text-5xl text-center text-neutral-50 font-bold capitalize"
           initial={{ opacity: 0, y: -800 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.85, ease: "easeOut" }}

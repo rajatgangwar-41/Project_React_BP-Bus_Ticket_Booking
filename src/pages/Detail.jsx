@@ -2,7 +2,7 @@
 import { motion } from "motion/react"
 import { AppLayout, TopLayout } from "../layout"
 import { busInside } from "../assets"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   Amenities,
   BusDetails,
@@ -12,9 +12,11 @@ import {
   ToggleButton,
   Warning,
 } from "../components"
+import { useEffect } from "react"
 
 const Detail = () => {
   const { state: bus } = useLocation()
+  const navigate = useNavigate()
 
   const message = (
     <>
@@ -25,6 +27,14 @@ const Detail = () => {
       </Link>
     </>
   )
+
+  useEffect(() => {
+    console.log(bus)
+    if (!bus) {
+      alert("You have not selected any bus yet")
+      navigate("/tickets")
+    }
+  }, [navigate, bus])
 
   return (
     <motion.div
@@ -82,7 +92,7 @@ const Detail = () => {
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
                 {/* Reservation Policy And Amenities */}
-                <div className="w-full grid grid-cols-10 gap-10">
+                <div className="w-full flex flex-col xl:flex-row gap-10">
                   {/* Amenities */}
                   <Amenities amenities={bus.amenities} />
                   {/* Bus Details */}

@@ -5,12 +5,12 @@ import { amenitiesList } from "../constants"
 
 const Amenities = ({ amenities }) => {
   return (
-    <div className="w-full col-span-3">
-      <div className="w-full space-y-3">
-        <h1 className="w-full text-lg text-neutral-600 font-medium text-start">
+    <div className="w-full xl:max-w-50">
+      <div className="w-full space-y-5">
+        <h1 className="w-full text-lg sm:text-xl text-neutral-600 font-medium text-start">
           Bus Amenities
         </h1>
-        <ul className="w-full grid grid-cols-2 gap-y-2">
+        <ul className="w-full grid grid-cols-2 md:max-xl:grid-cols-3 xl:grid-cols-1 gap-y-2 gap-x-5">
           {amenitiesList.map((amenity, index) => {
             return (
               <li key={index} className="w-full flex items-center gap-x-2">
@@ -19,7 +19,7 @@ const Amenities = ({ amenities }) => {
                 ) : (
                   <AiOutlineCloseSquare className="w-5 h-5 text-primary" />
                 )}
-                <p className="text-base text-neutral-700 font-normal">
+                <p className="text-sm sm:text-base text-neutral-700 font-normal">
                   {amenity}
                 </p>
               </li>

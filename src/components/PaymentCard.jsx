@@ -21,7 +21,7 @@ const PaymentCard = ({
       }`}
     >
       <div className="w-full flex items-center justify-between gap-7">
-        <div className="flex items-center gap-x-3">
+        <div className="flex items-center gap-x-10">
           <div className="w-fit h-16 rounded-lg">
             <img
               src={cardImage}

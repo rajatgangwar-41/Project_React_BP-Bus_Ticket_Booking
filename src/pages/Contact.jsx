@@ -299,7 +299,7 @@ const Contact = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full bg-neutral-50 py-4 flex gap-8"
+          className="w-full bg-neutral-50 py-4 flex flex-wrap gap-8"
         >
           <SectionWrapper>
             <PrivacyPolicy />

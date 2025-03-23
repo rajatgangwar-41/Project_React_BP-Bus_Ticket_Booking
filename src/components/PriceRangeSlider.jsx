@@ -17,7 +17,7 @@ const PriceRangeSlider = ({
   trackColor = "#cecece",
   rangeColor = "#ff0303",
   valueStyle = valueCSS,
-  width = "250px",
+  width = "w-[300px] min-[500px]:w-[450px] min-[640px]:w-[200px] min-[1100px]:w-[300px] xl:w-[200px]",
   currencyText = "\u20B9",
 }) => {
   const [minVal, setMinVal] = useState(min)
@@ -76,7 +76,9 @@ const PriceRangeSlider = ({
   return (
     <div className="w-full flex items-center justify-center flex-col mt-3 space-y-8">
       {/* Display Price Value */}
-      <div className="w-[250px] px-4 flex items-center justify-between gap-x-5">
+      <div
+        className={`${width} px-4 flex items-center justify-between gap-x-5`}
+      >
         <p className="text-xl text-neutral-600 font-semibold">
           {currencyText} {minVal}
         </p>
@@ -89,7 +91,7 @@ const PriceRangeSlider = ({
       </div>
 
       {/* Style the price range slider */}
-      <div className="multi-slide-input-container" style={{ width }}>
+      <div className={`${width} multi-slide-input-container`}>
         <input
           type="range"
           min={min}
@@ -99,9 +101,8 @@ const PriceRangeSlider = ({
             const value = Math.min(Number(event.target.value), maxVal - 1)
             setMinVal(value)
           }}
-          className="thumb thumb-left"
+          className={`${width} thumb thumb-left`}
           style={{
-            width,
             zIndex: minVal > max - 100 || minVal === maxVal ? 5 : undefined,
           }}
         />
@@ -115,9 +116,8 @@ const PriceRangeSlider = ({
             const value = Math.max(Number(event.target.value), minVal + 1)
             setMaxVal(value)
           }}
-          className="thumb thumb-right"
+          className={`${width} thumb thumb-right`}
           style={{
-            width,
             zIndex: minVal > max - 100 || minVal === maxVal ? 4 : undefined,
           }}
         />

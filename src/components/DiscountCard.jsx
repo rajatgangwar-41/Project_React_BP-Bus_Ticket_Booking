@@ -16,20 +16,20 @@ const DiscountCard = ({ title, discount, couponCode, validity, imgUrl }) => {
       .catch((error) => console.log("Failed to copy the coupon", error))
   }
   return (
-    <div className="w-full h-auto rounded-xl bg-neutral-300/20 hover:bg-neutral-300/40 p-8 flex items-center gap-x-10 shadow-md cursor-pointer">
+    <div className="w-full min-h-[200px] rounded-xl bg-neutral-300/20 hover:bg-neutral-300/40 px-5 py-4 flex items-center justify-evenly gap-x-5 shadow-md cursor-pointer">
       <img
         src={imgUrl}
         alt={`Discount Coupon`}
-        className="w-30 aspect-[1] object-cover object-center mix-blend-multiply"
+        className="w-25 @xs:w-27 @md:w-40 @xl:w-45 @3xl:w-35 aspect-[1] object-cover object-center mix-blend-multiply"
       />
-      <div className="w-full flex flex-1 flex-col space-y-2">
-        <h1 className="w-full text-xl font-semibold text-neutral-800 ">
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-base @sm:text-lg @lg:text-xl font-semibold text-neutral-800 ">
           {title}
         </h1>
-        <h3 className="w-full font-medium text-sm text-neutral-600">
+        <h3 className="font-medium text-sm @sm:text-base text-neutral-600">
           Discount: {discount} off
         </h3>
-        <div className="flex items-center gap-x-5">
+        <div className="flex text-sm @sm:text-base items-center gap-x-5">
           <div className="w-fit border border-dashed px-4 py-1 border-neutral-300 bg-violet-500/10 rounded-mg p-3 ">
             {copied ? (
               <span className="text-green-600">Copied</span>
@@ -45,9 +45,9 @@ const DiscountCard = ({ title, discount, couponCode, validity, imgUrl }) => {
             <FaCopy />
           </button>
         </div>
-        <p className="text-sm text-neutral-500 font-normal">
+        <p className="text-sm @sm:text-base text-neutral-500 font-normal">
           Valid till:
-          <span className="text-sm font-medium"> {validity}</span>
+          <span className="font-medium"> {validity}</span>
         </p>
       </div>
     </div>
