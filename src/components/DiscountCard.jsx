@@ -26,9 +26,9 @@ const DiscountCard = ({ title, discount, couponCode, validity, imgUrl }) => {
         <h1 className="text-base @sm:text-lg @lg:text-xl font-semibold text-neutral-800 ">
           {title}
         </h1>
-        <h3 className="font-medium text-sm @sm:text-base text-neutral-600">
+        <p className="font-medium text-sm @sm:text-base text-neutral-600">
           Discount: {discount} off
-        </h3>
+        </p>
         <div className="flex text-sm @sm:text-base items-center gap-x-5">
           <div className="w-fit border border-dashed px-4 py-1 border-neutral-300 bg-violet-500/10 rounded-mg p-3 ">
             {copied ? (
@@ -41,6 +41,7 @@ const DiscountCard = ({ title, discount, couponCode, validity, imgUrl }) => {
           <button
             onClick={() => handleCopy(couponCode)}
             className="text-xl text-indigo-600 cursor-pointer"
+            aria-label="Copy"
           >
             <FaCopy />
           </button>

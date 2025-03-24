@@ -51,7 +51,10 @@ const Search = () => {
               <FaMapMarkerAlt className="w-full h-full" />
             </div>
           </div>
-          <button className="absolute w-full xl:w-11 h-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center bg-primary">
+          <button
+            className="absolute w-full xl:w-11 h-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center bg-primary"
+            aria-label="Routes"
+          >
             <TbArrowsExchange className="w-full h-full xl:w-6 xl:h-6 text-neutral-50" />
           </button>
         </div>
@@ -59,29 +62,33 @@ const Search = () => {
         {/* Date and Buttons */}
         <div className="w-full xl:flex-1 flex flex-wrap xl:flex-nowrap items-center gap-3">
           <div className="w-full xl:flex-1 h-14 border border-neutral-300 bg-white/70 text-base text-neutral-700 font-medium px-5 rounded-lg flex items-center gap-x-1">
+            <label htmlFor="date-picker" className="sr-only">
+              Select a date
+            </label>
             <input
               type="date"
               name="date"
               value={state.search.date}
               onChange={(e) => setSearch({ [e.target.name]: e.target.value })}
               className="flex-1 h-full border-none bg-transparent focus:outline-none"
+              aria-label="date"
             />
           </div>
 
           <button
             onClick={() => resetFilters()}
-            className="w-full xl:w-auto xl:min-w-[140px] h-full xl:h-14 px-5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-lg font-semibold text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer whitespace-nowrap"
+            className="w-full xl:w-auto h-full xl:h-14 px-5 bg-primary hover:bg-primary/90 border-2 border-primary rounded-xl text-lg font-semibold text-white flex items-center justify-center gap-x-2 hover:text-white focus:ring-2 focus:ring-primary/50 ease-in-out duration-300 cursor-pointer whitespace-nowrap"
           >
             <IoMdCloseCircle className="w-6 h-6" />
-            <span>Clear Filter</span>
+            Clear Filter
           </button>
 
           <button
             onClick={handleSubmit}
-            className="w-full xl:w-auto h-full xl:h-14 px-5 bg-primary hover:bg-transparent border-2 border-primary hover:border-primary rounded-xl text-lg font-semibold text-neutral-50 flex items-center justify-center gap-x-2 hover:text-primary ease-in-out duration-300 cursor-pointer whitespace-nowrap"
+            className="w-full xl:w-auto h-full xl:h-14 px-5 bg-primary hover:bg-primary/90 border-2 border-primary rounded-xl text-lg font-semibold text-white flex items-center justify-center gap-x-2 hover:text-white focus:ring-2 focus:ring-primary/50 ease-in-out duration-300 cursor-pointer whitespace-nowrap"
           >
             <FaSearch className="w-6 h-6" />
-            <span>Search</span>
+            Search
           </button>
         </div>
       </div>
