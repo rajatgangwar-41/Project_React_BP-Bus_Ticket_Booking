@@ -4,4 +4,4 @@ Disallow: /ticket-checkout/
 Disallow: /ticket-invoice/
 Allow: /
 
-Sitemap: https://rajatgangwar-job-portfolio.netlify.app.com/sitemap.xml
+Sitemap: https://rajatgangwar-busticketbooking.netlify.app.com/sitemap.xml
